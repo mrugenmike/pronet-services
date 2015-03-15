@@ -1,0 +1,4 @@
+language: groovy
+notifications:
+  slack: cmpe282:8CQw2rfzDcGRTAfvXkSR7Anp
+
