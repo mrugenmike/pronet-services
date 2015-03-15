@@ -1,7 +1,6 @@
 package com.pronet.signup;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,25 +11,15 @@ public class SignupServiceImpl implements SignupService {
 
     public SignupServiceImpl(){}
 
-    //DataService service;
+    DataService service;
 
-    JdbcTemplate jdbcTemplate;
     @Autowired
-    public SignupServiceImpl(JdbcTemplate jdbcTemplate){
-         this.jdbcTemplate = jdbcTemplate;
-    }
-
-
-
+    public SignupServiceImpl(DataService service){this.service = service;}
 
     @Override
     public SignUpDetails signupUser(SignUpDetails signUpDetails) {
 
-        System.out.println("-----------------"+signUpDetails.getFname());
+        return service.registerUserDB(signUpDetails);
 
-        jdbcTemplate.update(
-                "INSERT INTO user(userId,fname,lname,email,password) values(?,?,?,?,?)",
-                3,signUpDetails.getFname(), signUpDetails.getLname(),signUpDetails.getEmail(),signUpDetails.getPassword());
-        return signUpDetails;
     }
 }

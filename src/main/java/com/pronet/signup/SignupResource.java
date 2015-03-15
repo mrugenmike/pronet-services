@@ -1,6 +1,8 @@
 package com.pronet.signup;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +25,8 @@ public class SignupResource {
 
 
     @RequestMapping(value="/signup",method = RequestMethod.POST)
-    public SignUpDetails signUpUser(@RequestBody SignUpDetails signUpDetails) {
-        return signupService.signupUser(signUpDetails);
+    public ResponseEntity<SignUpDetails> signUpUser(@RequestBody SignUpDetails signUpDetails){
+        return new ResponseEntity<SignUpDetails>(signupService.signupUser(signUpDetails), HttpStatus.CREATED);
     }
+
 }
