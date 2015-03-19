@@ -1,6 +1,8 @@
 package com.pronet.signup;
 
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * Created by neerajakukday on 3/13/15.
@@ -11,9 +13,9 @@ public class SignUpDetails {
     private String fname;
     @JsonProperty
     private String lname;
-    @JsonProperty
+    @JsonProperty @NotBlank @Email
     private String email;
-    @JsonProperty
+    @JsonProperty @NotBlank
     private String password;
 
     public SignUpDetails(){}
