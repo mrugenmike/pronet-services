@@ -1,5 +1,6 @@
 package com.pronet;
 
+import com.pronet.PronetConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
