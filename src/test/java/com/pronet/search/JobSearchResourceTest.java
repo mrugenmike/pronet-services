@@ -17,7 +17,7 @@ public void itShouldSendJobsBySearchTerm(){
     //given
     String term = "Software Engineer";
     JobSearchService jobSearchService = mock(JobSearchService.class);
-    when(jobSearchService.fetchJobListings(term, location)).thenReturn(Arrays.asList(new JobListing("","","","")));
+    when(jobSearchService.fetchJobListings(term)).thenReturn(Arrays.asList(new JobListing("jobid","title","ebay","logo","SF")));
     JobSearchResource jobSearchResource = new JobSearchResource(jobSearchService);
     //when
 
