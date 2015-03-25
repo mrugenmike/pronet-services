@@ -1,4 +1,6 @@
 language: groovy
+jdk:
+  - oraclejdk8		
 notifications:
   slack: cmpe282:8CQw2rfzDcGRTAfvXkSR7Anp
 
