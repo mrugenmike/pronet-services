@@ -20,7 +20,7 @@ public class JobSearchResource {
         this.jobSearchService = jobSearchService;
     }
 
-    @RequestMapping("jobs")
+    @RequestMapping("jobs/listings")
     List<JobListing> fetchJobs(@RequestParam("query") String term) throws NoContentException {
         List<JobListing> jobListings = jobSearchService.fetchJobListings(term);
         if(jobListings==null||jobListings.isEmpty()){

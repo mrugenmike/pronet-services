@@ -1,0 +1,18 @@
+create database IF NOT EXISTS linkedin;
+use linkedin;
+
+drop table SignIn;
+create table SignIn
+(
+ID int NOT NULL AUTO_INCREMENT,
+name varchar(255),
+email varchar(50),
+password varchar(25),
+role varchar(2),
+PRIMARY KEY (ID)
+);
+commit;
+select * from SignIn;
+
+desc SignIn;
+
