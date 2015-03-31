@@ -12,12 +12,19 @@ public class JobListing implements Serializable{
     private String companyLogoUrl;
     private String positionLocation;
 
-    public JobListing(String jobId,String positionTitle, String companyName, String companyLogoUrl, String positionLocation) {
+    public String getDescription() {
+        return description;
+    }
+
+    private String description;
+
+    public JobListing(String jobId,String positionTitle, String companyName, String companyLogoUrl, String positionLocation,String description) {
         this.jobId = jobId;
         this.positionTitle = positionTitle;
         this.companyName = companyName;
         this.companyLogoUrl = companyLogoUrl;
         this.positionLocation = positionLocation;
+        this.description = description;
     }
 
     public String getPositionTitle() {
@@ -45,6 +52,7 @@ public class JobListing implements Serializable{
         String company_logo= (String) job.get("companyLogo");
         String location= (String) job.get("positionLocation");
         String id= (String) job.get("id");
-        return new JobListing(id,position_title,company_name,company_logo,location);
+        String description= (String) job.get("description");
+        return new JobListing(id,position_title,company_name,company_logo,location,description);
     }
 }
