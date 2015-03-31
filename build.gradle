@@ -6,6 +6,7 @@ version = '1.0'
 buildscript {
     repositories {
         maven { url "https://repo.spring.io/libs-release" }
+        maven { url "http://repo.opensourceagility.com/release" }
         mavenLocal()
         mavenCentral()
     }
@@ -28,12 +29,11 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven { url "https://repo.spring.io/libs-release" }
+    maven { url "http://repo.opensourceagility.com/release" }
     jcenter()
 }
 
-
 dependencies {
-
     compile("org.springframework.boot:spring-boot-starter-web")
     testCompile("junit:junit")
     compile("org.codehaus.jackson:jackson-mapper-lgpl:1.9.13")
@@ -49,8 +49,8 @@ dependencies {
     compile 'org.easytesting:fest-assert-core:2.0M10'
     compile 'org.springframework.data:spring-data-redis:1.5.0.RELEASE'
     compile 'redis.clients:jedis:2.6.0'
-
-
+    compile 'com.amazonaws:aws-java-sdk:+'
+    //compile 'org.socialsignin:spring-data-dynamodb:1.0.1.RELEASE'
 }
 
 task wrapper(type: Wrapper) {

@@ -1,5 +1,6 @@
 package com.pronet.signup;
 
+import com.sun.javafx.beans.IDProperty;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -8,6 +9,10 @@ import org.hibernate.validator.constraints.NotBlank;
  * Created by varuna on 3/19/15.
  */
 public class signUpModel {
+
+
+    private String ID;
+
     @JsonProperty
     private String name;
 
@@ -20,6 +25,26 @@ public class signUpModel {
 
     @JsonProperty @NotBlank
     private String role;
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public signUpModel(){}
 
@@ -45,5 +70,9 @@ public class signUpModel {
 
     public String getRole() {
         return role;
+    }
+
+    public String getID() {
+        return ID;
     }
 }

@@ -1,4 +1,7 @@
-create table user_details
+use linkedin;
+
+drop table SignIn;
+create table SignIn
 (
 ID int NOT NULL AUTO_INCREMENT,
 name varchar(255),
@@ -7,3 +10,8 @@ password varchar(25),
 role varchar(2),
 PRIMARY KEY (ID)
 );
+commit;
+select * from SignIn;
+
+desc SignIn;
+
