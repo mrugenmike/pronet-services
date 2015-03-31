@@ -1,9 +1,8 @@
 package com.pronet.signin;
 
+
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.amazonaws.util.json.JSONException;
-import com.amazonaws.util.json.JSONObject;
 import com.pronet.BadRequestException;
 import com.pronet.company.CompanyDetails;
 import com.pronet.signup.signUpModel;
@@ -16,6 +15,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -38,7 +41,7 @@ public class SignInController {
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public JSONObject signInUser(@Valid @RequestBody singInModel model, BindingResult result) throws EmptyResultDataAccessException, JSONException {{
+    public JSONObject signInUser(@Valid @RequestBody singInModel model, BindingResult result) throws EmptyResultDataAccessException {{
 
             if (result.hasErrors()) {
                 throw new BadRequestException("Error in Request Body");
