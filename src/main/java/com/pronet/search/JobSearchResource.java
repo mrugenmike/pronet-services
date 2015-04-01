@@ -21,9 +21,9 @@ public class JobSearchResource {
     }
 
     @RequestMapping("jobs/listings")
-    List<JobListing> fetchJobs(@RequestParam("query") String term) throws NoContentException {
-        List<JobListing> jobListings = jobSearchService.fetchJobListings(term);
-        if(jobListings==null||jobListings.isEmpty()){
+    JobListings fetchJobListings(@RequestParam("query") String term,@RequestParam(defaultValue = "0") int skip,@RequestParam(defaultValue ="5") int limit) throws NoContentException {
+        JobListings jobListings = jobSearchService.fetchJobListings(term, skip, limit);
+        if(jobListings==null){
             throw new NoContentException("Job Listings Not Found");
         }
         return jobListings;

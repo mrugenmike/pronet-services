@@ -16,18 +16,23 @@ public class JobSearchServiceImpl implements JobSearchService {
         this.redisTemplate = redisTemplate;
     }
 
-    private String jobTags = "tags:jobs";
-    private String jobsSchema = "jobs:";
+    private String jobTags = "tags:jobs".intern();
+    private String jobsSchema = "jobs:".intern();
+    private String setKey = "0".intern();
 
     @Override
-    public List<JobListing> fetchJobListings(String term) {
+    public JobListings fetchJobListings(String term,int skipResults,int limitResults ) {
         if(term!=null||!term.isEmpty()){
             List<String> terms = Arrays.asList(term.toLowerCase().trim().split(" "));
             String searchTerm = terms.stream().map(t -> t).collect(Collectors.joining("_"));
-            Set<String> jobIds = redisTemplate.opsForSet().members(jobTags+":"+searchTerm);
+            final String setName = jobTags + ":" + searchTerm;
+            Long totalTerms = redisTemplate.opsForZSet().zCard(setName);
+            Set<String> jobIds = redisTemplate.opsForZSet().range(setName,skipResults,limitResults);
+
             if(jobIds!=null && !jobIds.isEmpty()){
                 List<Map<Object, Object>> foundJobEntries = jobIds.stream().map(jobId -> jobsSchema + jobId).map(jobSearchKey -> redisTemplate.opsForHash().entries(jobSearchKey)).collect(Collectors.toList());
-                return foundJobEntries.parallelStream().map(job -> JobListing.instance(job)).collect(Collectors.toList());
+                final List<JobListing> jobListings = foundJobEntries.parallelStream().map(job -> JobListing.instance(job)).collect(Collectors.toList());
+                return new JobListings(jobListings,totalTerms);
             }
         }
         return null;
