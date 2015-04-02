@@ -9,3 +9,4 @@ build*
 *.iws
 settings.gradle
 gradlew.bat
+.idea
