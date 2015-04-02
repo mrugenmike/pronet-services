@@ -27,7 +27,7 @@ import java.io.IOException;
 @org.springframework.context.annotation.Configuration
 @EnableAutoConfiguration
 @ComponentScan
-@PropertySource(value = {"classpath:/db-rds.properties","classpath:/db-redis.properties","classpath:/dynamo.properties","classpath:/aws.properties" },ignoreResourceNotFound = false)
+@PropertySource(value = {"classpath:/db-rds.properties","classpath:/db-redis.properties","classpath:/dynamo.properties"},ignoreResourceNotFound = false)
 public class PronetConfig {
 
     //Redis Connection
@@ -36,7 +36,6 @@ public class PronetConfig {
 
     @Value("${redis.port}")
     Integer redisPort;
-
 
     //Dynamo Connection
     @Value("${accessKey}")
@@ -84,6 +83,7 @@ public class PronetConfig {
     DynamoDB amazonDynamoDB() {
         AmazonDynamoDBClient amzDynamoDB = new AmazonDynamoDBClient(new BasicAWSCredentials(accessKey, secretKey));
         amzDynamoDB.setRegion(Region.getRegion(Regions.US_WEST_1));
+        //amzDynamoDB.setEndpoint("http://localhost:8000");
         final DynamoDB dynDB = new DynamoDB(amzDynamoDB);
         return dynDB;
     }
@@ -92,9 +92,20 @@ public class PronetConfig {
     DynamoDBMapper amazonDynamoDBMapper() {
         AmazonDynamoDBClient amzDynamoDB = new AmazonDynamoDBClient(new BasicAWSCredentials(accessKey, secretKey));
         amzDynamoDB.setRegion(Region.getRegion(Regions.US_WEST_1));
+        //amzDynamoDB.setEndpoint("http://localhost:8000");
         final DynamoDBMapper mapper = new DynamoDBMapper(amzDynamoDB);
         return mapper;
     }
+
+    @Bean
+    AmazonDynamoDBClient amazonDynamoDBClient() {
+        AmazonDynamoDBClient amzDynamoDB = new AmazonDynamoDBClient(new BasicAWSCredentials(accessKey, secretKey));
+        amzDynamoDB.setRegion(Region.getRegion(Regions.US_WEST_1));
+        //amzDynamoDB.setEndpoint("http://localhost:8000");
+        //final DynamoDB dynDB = new DynamoDB(amzDynamoDB);
+        return amzDynamoDB;
+    }
+
 
 /*
     @Bean

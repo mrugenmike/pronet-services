@@ -78,26 +78,18 @@ public class signUpController {
                 }
                 else
                 {
-                   table = dyDB.getTable("CompanyDetails");
+                   table = dyDB.getTable("CompanyProfile");
                 }
 
                 Map<String, AttributeValue> item = new HashMap<String, AttributeValue>();
                 Item dyn = new Item()
-                        .withPrimaryKey("ID", insertedID)
+                        .withPrimaryKey("id", insertedID)
                         .withString("name", model.getName());
 
                 table.putItem(dyn);
 
-                  /*  UserDetails newUser = new UserDetails();
-                    newUser.setID(insertedID);
-                    newUser.setName(model.getName());
-                    mapper.save(newUser);
-                    System.out.println("Inserted into dynamo");*/
-
-                // insert into redis
-
+                //TODO insert into redis
             }
         }
-        //return new ResponseEntity<String>("true",HttpStatus.CREATED);
     }
 }

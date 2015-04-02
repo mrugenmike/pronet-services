@@ -12,7 +12,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 @DynamoDBTable(tableName="UserDetails")
 public class UserDetails {
-    private String ID;
+    private String id;
     private String name;
     private String imgURL;
     private String role;
@@ -25,12 +25,12 @@ public class UserDetails {
     private String certifications;
     private String lastseen;
 
-    @DynamoDBHashKey(attributeName="ID")
+    @DynamoDBHashKey(attributeName="id")
     public String getID() {
-        return ID;
+        return id;
     }
     public void setID(String ID) {
-        this.ID = ID;
+        this.id = ID;
     }
 
     @DynamoDBAttribute(attributeName="name")
@@ -134,7 +134,7 @@ public class UserDetails {
 
 
     public String toString(){
-        return "ID : " + ID + " Name:" + name + " URL:"+ imgURL + " role:"+ role +
+        return "ID : " + id + " Name:" + name + " URL:"+ imgURL + " role:"+ role +
                 " Region:" + region + " Education: " + education + " workex: " + workExperience +
                 " Summary:"+summary + " Ed Details:"+educationDetails + " Skills:"+skills +
                 " cerification:"+certifications + " lastseen:"+lastseen;

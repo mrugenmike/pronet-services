@@ -6,28 +6,27 @@ package com.pronet.company;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-import com.sun.javafx.beans.IDProperty;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
-
-import java.util.List;
 
 
-@DynamoDBTable(tableName="CompanyDetails")
-public class CompanyDetails {
+@DynamoDBTable(tableName="CompanyProfile")
+public class CompanyProfile {
 
-    private String ID;
+
+    private String id;
     private String name;
     private String logo;
     private String url;
     private String overview;
 
-    public CompanyDetails(){}
+    public CompanyProfile(){}
 
-    @DynamoDBHashKey(attributeName="ID")
-    public String getID() {
-        return ID;
+    @DynamoDBHashKey(attributeName="id")
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @DynamoDBAttribute(attributeName="name")
@@ -48,10 +47,6 @@ public class CompanyDetails {
     @DynamoDBAttribute(attributeName="overview")
     public String getOverview() {
         return overview;
-    }
-
-    public void setID(String ID) {
-        this.ID = ID;
     }
 
     public void setName(String name) {
