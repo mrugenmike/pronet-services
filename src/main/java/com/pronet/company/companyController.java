@@ -3,6 +3,8 @@ package com.pronet.company;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.pronet.BadRequestException;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by varuna on 4/2/15.
@@ -61,9 +68,7 @@ public class companyController {
             } else {
                 json.put("Overview", getCompany.getOverview());
             }
-
             System.out.println(json);
-
         }
         catch(Exception e)
         {
@@ -72,7 +77,6 @@ public class companyController {
 
         }
 
-        console.log(""+ id);
         String sql = "SELECT count(1) FROM follow WHERE followeeID ='" + id + "'";
         Integer followerCount  = jdbcTemplate.queryForObject(sql, Integer.class);
         System.out.println(followerCount);
@@ -81,11 +85,88 @@ public class companyController {
         sql = "SELECT count(1) FROM follow WHERE followeeID ='" + id + "' and followeeID ='" + currentID + "'";
         Integer followStatus  = jdbcTemplate.queryForObject(sql, Integer.class);
         System.out.println(followStatus);
-
         if(followStatus == 0)
             json.put("follow","Follow");
         else
             json.put("follow","UnFollow");
         return json;
+    }
+
+    @RequestMapping(value = "/company", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void companyProfile(@Valid @RequestBody CompanyProfile model, BindingResult result) throws EmptyResultDataAccessException {
+        {
+            // System.out.println(model);
+            // System.out.println(id);
+            System.out.println(model.getId());
+            String name=model.getName();
+            String url =model.getUrl();
+
+            try {
+                String  id=model.getId();
+                if (!id.isEmpty())
+                {
+                    System.out.println("insert into CompanyProfile");
+                    //insert into dynamo db , userID and name
+
+                    Table companyProfileTable = dyDB.getTable("CompanyProfile");
+                    Map<String, String> itemName = new HashMap<String, String>();
+                    Map<String, Object> itemValue = new HashMap<String, Object>();
+
+                    if(name!=null &&  url!=null) {
+                        itemName.put("#name", "name");
+
+                        itemValue.put(":name", model.getName());
+                        itemName.put("#url", "url");
+                        itemValue.put(":url", model.getUrl());
+                        UpdateItemOutcome outcome =  companyProfileTable.updateItem(
+                                "id",          // key attribute name
+                                id,           // key attribute value
+                                "set #name =:name , #url=:url", // UpdateExpression
+                                itemName,
+                                itemValue);
+                        System.out.println("Updated both(name,url)");
+                        System.out.println("done");
+                    }
+                    else if(name!=null)
+                    {
+                        itemName.put("#name", "name");
+                        itemValue.put(":name", model.getName());
+                        UpdateItemOutcome outcome =  companyProfileTable.updateItem(
+                                "id",          // key attribute name
+                                id,           // key attribute value
+                                "set #name =:name ", // UpdateExpression
+                                itemName,
+                                itemValue);
+                        System.out.println("Updated name");
+
+                    }else if(url!=null)
+                    {
+                        itemName.put("#url", "url");
+                        itemValue.put(":url", model.getUrl());
+                        UpdateItemOutcome outcome =  companyProfileTable.updateItem(
+                                "id",          // key attribute name
+                                id,           // key attribute value
+                                "set #url =:url ", // UpdateExpression
+                                itemName,
+                                itemValue);
+                        System.out.println("Updated url");
+
+                    }
+                    else{
+                        System.out.println("Nothing to update");
+                    }
+                    //Item dyn = new Item()
+//                            .withPrimaryKey("id", id)
+//                            .withString("logo", "My creds were not working so just to test")
+//                            .withString("name", "I used your")
+//                            .withString("overview", "creds");
+                }
+
+            } catch (EmptyResultDataAccessException e) {
+
+            }
+        }
+        //return new ResponseEntity<String>("true",HttpStatus.CREATED);
     }
 }
