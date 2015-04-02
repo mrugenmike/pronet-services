@@ -7,11 +7,13 @@ import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.model.*;
 import com.pronet.BadRequestException;
+import com.pronet.Follow.Follow;
 import com.pronet.userdetails.UserDetails;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -29,6 +31,10 @@ import java.util.Map;
 @RestController
 @Component("UserDetailsController")
 public class UserDetailsController {
+
+    @Autowired
+    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+
     @Autowired
     DynamoDB dyDB;
 
@@ -41,6 +47,7 @@ public class UserDetailsController {
     @RequestMapping(value = "/userprofile/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public void UpdateUserDetails(@PathVariable("id") String id,@Valid @RequestBody UserDetails user, BindingResult result) throws EmptyResultDataAccessException {
+
 
         if (result.hasErrors()) {
             throw new BadRequestException("Error in Request Body");
@@ -98,10 +105,10 @@ public class UserDetailsController {
     }
 
 
-    @RequestMapping(value = "/userprofile/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/userprofile/{id}/{currentID}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public JSONObject getUserDetails(@PathVariable("id") String id) throws EmptyResultDataAccessException
+    public JSONObject getUserDetails(@PathVariable("id") String id,@PathVariable("currentID") String currentID ) throws Exception
     {
         JSONObject json= new JSONObject();
 
@@ -173,13 +180,25 @@ public class UserDetailsController {
                 json.put("LastSeen", getUser.getLastseen());
             }
 
-            System.out.println(json);
-
         }catch(Exception e)
         {
             System.out.println("User not found");
             throw new BadRequestException("User not found");
         }
+
+        String sql = "SELECT count(1) FROM follow WHERE followeeID ='" + id + "'";
+        Integer followerCount  = jdbcTemplate.queryForObject(sql, Integer.class);
+        System.out.println(followerCount);
+        json.put("followerCount",followerCount);
+
+        sql = "SELECT count(1) FROM follow WHERE followeeID ='" + id + "' and followeeID ='" + currentID + "'";
+        Integer followStatus  = jdbcTemplate.queryForObject(sql, Integer.class);
+        System.out.println(followStatus);
+
+        if(followStatus == 0)
+            json.put("follow","Follow");
+        else
+            json.put("follow","UnFollow");
         return json;
     }
 

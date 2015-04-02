@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,9 @@ import org.springframework.web.bind.annotation.*;
 public class companyController {
 
     @Autowired
+    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+
+    @Autowired
     DynamoDB dyDB;
 
     @Autowired
@@ -30,10 +34,10 @@ public class companyController {
     @Autowired
     AmazonDynamoDBClient dynamoDBClient;
 
-    @RequestMapping(value = "/companyprofile/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/companyprofile/{id}/{currentID}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public JSONObject getCompanyDetails(@PathVariable("id") String id) throws Exception {
+    public JSONObject getCompanyDetails(@PathVariable("id") String id, @PathVariable("currentID") String currentID) throws Exception {
         JSONObject json = new JSONObject();
         try {
             CompanyProfile getCompany = mapper.load(CompanyProfile.class, id);
@@ -59,7 +63,7 @@ public class companyController {
             }
 
             System.out.println(json);
-            return json;
+
         }
         catch(Exception e)
         {
@@ -67,5 +71,21 @@ public class companyController {
             throw new BadRequestException("Company not found");
 
         }
+
+        console.log(""+ id);
+        String sql = "SELECT count(1) FROM follow WHERE followeeID ='" + id + "'";
+        Integer followerCount  = jdbcTemplate.queryForObject(sql, Integer.class);
+        System.out.println(followerCount);
+        json.put("followerCount",followerCount);
+
+        sql = "SELECT count(1) FROM follow WHERE followeeID ='" + id + "' and followeeID ='" + currentID + "'";
+        Integer followStatus  = jdbcTemplate.queryForObject(sql, Integer.class);
+        System.out.println(followStatus);
+
+        if(followStatus == 0)
+            json.put("follow","Follow");
+        else
+            json.put("follow","UnFollow");
+        return json;
     }
 }

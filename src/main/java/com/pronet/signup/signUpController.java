@@ -60,7 +60,6 @@ public class signUpController {
                     throw new BadRequestException("Account is already registered");
 
             } catch (EmptyResultDataAccessException e) {
-
                 jdbcTemplate.execute(
                         "INSERT INTO SignIn(name,email,password,role) values('"
                                 + model.getName() + "','"

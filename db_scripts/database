@@ -16,3 +16,15 @@ select * from SignIn;
 
 desc SignIn;
 
+//create follow table
+drop table follow;
+create table follow
+(
+followerID varchar(255),
+followeeID varchar(255),
+followeeImgURL varchar(255),
+followeeName varchar(255),
+followeeRole varchar(255)
+);
+commit;
+select * from follow;
