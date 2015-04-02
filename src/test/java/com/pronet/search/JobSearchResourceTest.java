@@ -17,13 +17,15 @@ public void itShouldSendJobsBySearchTerm(){
     //given
     String term = "Software Engineer";
     JobSearchService jobSearchService = mock(JobSearchService.class);
-    when(jobSearchService.fetchJobListings(term)).thenReturn(Arrays.asList(new JobListing("jobid","title","ebay","logo","SF","Great Job!")));
+    final List<JobListing> jobListings = Arrays.asList(new JobListing("jobid", "title", "ebay", "logo", "SF", "Great Job!"));
+    when(jobSearchService.fetchJobListings(term,99,5)).thenReturn(new JobListings(jobListings,100l));
     JobSearchResource jobSearchResource = new JobSearchResource(jobSearchService);
     //when
 
-    List<JobListing> jobList = jobSearchResource.fetchJobs(term);
+    JobListings jobList = jobSearchResource.fetchJobListings(term,99,5);
     //then
     assertThat(jobList).isNotNull();
-    assertThat(jobList).hasSize(1);
+    assertThat(jobList.getListings()).hasSize(1);
+    assertThat(jobList.getTotalTerms()).isEqualTo(100);
 }
 }
