@@ -12,7 +12,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,11 +19,6 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by varuna on 4/2/15.
- */
-
-@Controller
 @RestController
 @Component("companyController")
 public class companyController {
