@@ -6,6 +6,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @org.springframework.context.annotation.Configuration
 @EnableAutoConfiguration
@@ -93,12 +95,15 @@ public class PronetConfig {
         amzDynamoDB.setRegion(Region.getRegion(Regions.US_WEST_1));
         return amzDynamoDB;
     }
-/*
+
     @Bean
     JdbcTemplate JdbcDB() {
-        return new JdbcTemplate();
+        final BasicDataSource basicDataSource = new BasicDataSource();
+        basicDataSource.setUrl(rdsDatasource);
+        basicDataSource.setUsername(rdsUserName);
+        basicDataSource.setPassword(rdsPassword);
+        return new JdbcTemplate(basicDataSource);
     }
-*/
 
 
 

@@ -17,7 +17,7 @@ import java.util.List;
 public class SignInService {
 
     @Autowired
-    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    JdbcTemplate jdbcTemplate;
 
     @Autowired
     DynamoDB dyDB;
