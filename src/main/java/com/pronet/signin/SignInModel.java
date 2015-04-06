@@ -4,10 +4,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-/**
- * Created by varuna on 3/19/15.
- */
-public class singInModel {
+
+public class SignInModel {
 
     @JsonProperty
     @NotBlank
@@ -17,10 +15,10 @@ public class singInModel {
     @JsonProperty @NotBlank
     private String password;
 
-    public singInModel(){}
+    public SignInModel(){}
 
 
-    public singInModel( @JsonProperty String email, @JsonProperty String password) {
+    public SignInModel(@JsonProperty String email, @JsonProperty String password) {
         this.email = email;
         this.password = password;
     }

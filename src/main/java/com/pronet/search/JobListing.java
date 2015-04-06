@@ -1,7 +1,5 @@
 package com.pronet.search;
 
-import org.springframework.cache.annotation.Cacheable;
-
 import java.io.Serializable;
 import java.util.Map;
 

@@ -1,12 +1,8 @@
 package com.pronet.Follow;
 
 
-import com.sun.javafx.beans.IDProperty;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-/**
- * Created by varuna on 4/2/15.
- */
 public class Follow {
 
     @JsonProperty

@@ -1,24 +1,19 @@
 package com.pronet.userdetails;
 
-/**
- * Created by varuna on 3/30/15.
- */
 
-import java.util.Set;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 @DynamoDBTable(tableName="UserDetails")
 public class UserDetails {
     private String id;
-    private String name;
-    private String imgURL;
+    private String user_name;
+    private String img;
     private String role;
     private String region;
     private String education;
-    private String workExperience;
+    private String workex;
     private String summary;
     private String educationDetails;
     private String skills;
@@ -26,29 +21,29 @@ public class UserDetails {
     private String lastseen;
 
     @DynamoDBHashKey(attributeName="id")
-    public String getID() {
+    public String getId() {
         return id;
     }
-    public void setID(String ID) {
-        this.id = ID;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    @DynamoDBAttribute(attributeName="name")
-    public String getName() {
-        return name;
+    @DynamoDBAttribute(attributeName="user_name")
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
-    @DynamoDBAttribute(attributeName="imgURL")
-    public String getImgURL() {
-        return imgURL;
+    @DynamoDBAttribute(attributeName="img")
+    public String getImg() {
+        return img;
     }
 
-    public void setImgURL(String imgURL) {
-        this.imgURL = imgURL;
+    public void setImg(String img) {
+        this.img = img;
     }
 
     @DynamoDBAttribute(attributeName="role")
@@ -78,13 +73,13 @@ public class UserDetails {
         this.education = education;
     }
 
-    @DynamoDBAttribute(attributeName="workExperience")
-    public String getWorkExperience() {
-        return workExperience;
+    @DynamoDBAttribute(attributeName="workex")
+    public String getWorkex() {
+        return workex;
     }
 
-    public void setWorkExperience(String workExperience) {
-        this.workExperience = workExperience;
+    public void setWorkex(String workex) {
+        this.workex = workex;
     }
 
     @DynamoDBAttribute(attributeName="summary")
@@ -134,8 +129,8 @@ public class UserDetails {
 
 
     public String toString(){
-        return "ID : " + id + " Name:" + name + " URL:"+ imgURL + " role:"+ role +
-                " Region:" + region + " Education: " + education + " workex: " + workExperience +
+        return "id : " + id + " Name:" + user_name + " URL:"+ img + " role:"+ role +
+                " Region:" + region + " Education: " + education + " workex: " + workex +
                 " Summary:"+summary + " Ed Details:"+educationDetails + " Skills:"+skills +
                 " cerification:"+certifications + " lastseen:"+lastseen;
 

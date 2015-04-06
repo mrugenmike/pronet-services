@@ -1,46 +1,40 @@
 package com.pronet.jobs;
 
-/**
- * Created by parin on 4/2/15.
- */
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-import com.sun.javafx.beans.IDProperty;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 
-import java.util.List;
-
-@DynamoDBTable(tableName="CompanyProfile")
+@DynamoDBTable(tableName="JobPosting")
 public class JobsModel {
 
     String id;
+    String jid;
     String jtitle;
     String desc;
     String skills;
     String start_date;
     String ex_date;
-    String region;
+    String job_region;
     String status;
 
-    @DynamoDBHashKey(attributeName="id")
-    public String getId() {
-        return id;
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
 
-    @DynamoDBAttribute(attributeName="jtitle")
+
+    @DynamoDBHashKey(attributeName="jtitle")
     public String getJtitle() {
         return jtitle;
     }
 
     public void setJtitle(String jtitle) {
         this.jtitle = jtitle;
+    }
+
+    @DynamoDBAttribute(attributeName="id")
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
     }
 
     @DynamoDBAttribute(attributeName="desc")
@@ -80,13 +74,13 @@ public class JobsModel {
         this.ex_date = ex_date;
     }
 
-    @DynamoDBAttribute(attributeName="region")
-    public String getRegion() {
-        return region;
+    @DynamoDBAttribute(attributeName="job_region")
+    public String getJob_region() {
+        return job_region;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
+    public void setJob_region(String job_region) {
+        this.job_region = job_region;
     }
     @DynamoDBAttribute(attributeName="status")
     public String getStatus() {
@@ -95,5 +89,14 @@ public class JobsModel {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @DynamoDBAttribute(attributeName="jid")
+    public String getJid() {
+        return jid;
+    }
+
+    public void setJid(String jid) {
+        this.jid = jid;
     }
 }

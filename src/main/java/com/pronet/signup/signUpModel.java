@@ -1,20 +1,15 @@
 package com.pronet.signup;
 
-import com.sun.javafx.beans.IDProperty;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-/**
- * Created by varuna on 3/19/15.
- */
 public class signUpModel {
-
 
     private String ID;
 
     @JsonProperty
-    private String name;
+    private String user_name;
 
     @JsonProperty @NotBlank
     @Email
@@ -26,12 +21,14 @@ public class signUpModel {
     @JsonProperty @NotBlank
     private String role;
 
+    private String last_seen;
+
     public void setID(String ID) {
         this.ID = ID;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
     public void setEmail(String email) {
@@ -46,18 +43,22 @@ public class signUpModel {
         this.role = role;
     }
 
+    public void setLast_seen(String last_seen) {
+        this.last_seen = last_seen;
+    }
+
     public signUpModel(){}
 
 
-    public signUpModel(@JsonProperty String name, @JsonProperty String email, @JsonProperty String password , @JsonProperty String role) {
-        this.name = name;
+    public signUpModel(@JsonProperty String user_name, @JsonProperty String email, @JsonProperty String password , @JsonProperty String role) {
+        this.user_name = user_name;
         this.email = email;
         this.password = password;
         this.role = role;
     }
 
-    public String getName() {
-        return name;
+    public String getUser_name() {
+        return user_name;
     }
 
     public String getEmail() {
@@ -74,5 +75,9 @@ public class signUpModel {
 
     public String getID() {
         return ID;
+    }
+
+    public String getLast_seen() {
+        return last_seen;
     }
 }

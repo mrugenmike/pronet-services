@@ -1,37 +1,30 @@
 package com.pronet.company;
 
-/**
- * Created by parin on 3/29/15.
- */
+
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 
 @DynamoDBTable(tableName="CompanyProfile")
-public class CompanyProfile {
-
+public class CompanyDetails {
 
     private String id;
-    private String name;
+    private String user_name;
     private String logo;
     private String url;
     private String overview;
 
-    public CompanyProfile(){}
+    public CompanyDetails(){}
 
     @DynamoDBHashKey(attributeName="id")
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @DynamoDBAttribute(attributeName="name")
-    public String getName() {
-        return name;
+    @DynamoDBAttribute(attributeName="user_name")
+    public String getUser_name() {
+        return user_name;
     }
 
     @DynamoDBAttribute(attributeName="logo")
@@ -49,8 +42,12 @@ public class CompanyProfile {
         return overview;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
     public void setLogo(String logo) {
