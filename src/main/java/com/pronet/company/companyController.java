@@ -82,7 +82,7 @@ public class companyController {
         System.out.println(followerCount);
         json.put("followerCount",followerCount);
 
-        sql = "SELECT count(1) FROM follow WHERE followeeID ='" + id + "' and followeeID ='" + currentID + "'";
+        sql = "SELECT count(1) FROM follow WHERE followeeID ='" + id + "' and followerID ='" + currentID + "'";
         Integer followStatus  = jdbcTemplate.queryForObject(sql, Integer.class);
         System.out.println(followStatus);
         if(followStatus == 0)

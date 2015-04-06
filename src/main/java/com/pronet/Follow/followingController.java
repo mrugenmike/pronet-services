@@ -21,6 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.pronet.Follow.Follow;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,17 +31,22 @@ import java.util.List;
 @Controller
 @RestController
 @Component("FollowingController")
-
 public class followingController {
+
     @Autowired
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
     @RequestMapping(value = "/following/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public List following(@PathVariable("id") String id, BindingResult result) throws EmptyResultDataAccessException {
+    public @ResponseBody List following(@PathVariable("id") String id) {
+
+        //List followers = new ArrayList<>();
         //fetch the login details for the ID
-        String sql1 = "SELECT followeeID,followeeName,followeeImgURL FROM follow WHERE followerID = '" + id + "' group by " ;
-        List followers = jdbcTemplate.queryForList(sql1);
-        return followers;
+        System.out.println(id);
+            String sql1 = "SELECT followeeID,followeeName,followeeImgURL,followeeRole FROM follow WHERE followerID = '" + id + "'";
+            List followers = jdbcTemplate.queryForList(sql1);
+            System.out.println(followers);
+            return followers;
+
     }
 }
