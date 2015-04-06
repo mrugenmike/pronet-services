@@ -1,6 +1,5 @@
 package com.pronet.Follow;
 
-import com.pronet.userdetails.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -9,12 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import com.pronet.Follow.Follow;
 import javax.validation.Valid;
 
-/**
- * Created by varuna on 4/2/15.
- */
 
 @Controller
 @RestController

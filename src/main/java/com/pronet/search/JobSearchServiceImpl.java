@@ -27,7 +27,7 @@ public class JobSearchServiceImpl implements JobSearchService {
             String searchTerm = terms.stream().map(t -> t).collect(Collectors.joining("_"));
             final String setName = jobTags + ":" + searchTerm;
             Long totalTerms = redisTemplate.opsForZSet().zCard(setName);
-            Set<String> jobIds = redisTemplate.opsForZSet().range(setName,skipResults,limitResults);
+            Set<String> jobIds = redisTemplate.opsForZSet().range(setName,skipResults,skipResults+limitResults);
 
             if(jobIds!=null && !jobIds.isEmpty()){
                 List<Map<Object, Object>> foundJobEntries = jobIds.stream().map(jobId -> jobsSchema + jobId).map(jobSearchKey -> redisTemplate.opsForHash().entries(jobSearchKey)).collect(Collectors.toList());
