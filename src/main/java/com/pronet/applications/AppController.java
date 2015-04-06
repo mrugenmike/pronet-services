@@ -21,7 +21,8 @@ public class AppController {
         this.appService = appService;
     }
 
-    @RequestMapping(value = "/jobapps", method = RequestMethod.POST)
+    //Apply for job
+    @RequestMapping(value = "/jobs/apply", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void jobApp(@RequestBody AppModel model,BindingResult result) throws Exception {
 
@@ -35,8 +36,8 @@ public class AppController {
 
 
     }
-
-    @RequestMapping(value = "/jobapps/{c_id}", method = RequestMethod.GET)
+    //get all job applications for company
+    @RequestMapping(value = "/jobs/{c_id}/appDetails", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public JSONObject getAllJobs(@PathVariable("c_id") String c_id) throws Exception {
 
