@@ -1,4 +1,4 @@
-package com.pronet.Follow;
+package com.pronet.follow;
 
 import org.springframework.jdbc.core.RowMapper;
 
