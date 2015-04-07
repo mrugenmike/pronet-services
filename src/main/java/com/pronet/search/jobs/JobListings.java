@@ -1,4 +1,4 @@
-package com.pronet.search;
+package com.pronet.search.jobs;
 
 import java.util.List;
 

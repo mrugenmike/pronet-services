@@ -1,4 +1,4 @@
-package com.pronet.search;
+package com.pronet.search.jobs;
 
 import com.pronet.exceptions.NoContentException;
 import org.springframework.beans.factory.annotation.Autowired;

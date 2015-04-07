@@ -1,4 +1,4 @@
-package com.pronet.search;
+package com.pronet.search.jobs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
