@@ -1,4 +1,4 @@
-package com.pronet.Follow2;
+package com.pronet.follow;
 
 
 import org.codehaus.jackson.annotate.JsonProperty;

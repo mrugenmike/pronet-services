@@ -1,5 +1,6 @@
-package com.pronet.Follow2;
+package com.pronet.follow;
 
+import com.pronet.follow.Follow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
