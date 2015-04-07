@@ -8,6 +8,7 @@ import com.amazonaws.services.dynamodbv2.model.*;
 import com.pronet.BadRequestException;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +29,13 @@ public class UserDetailsService {
 
     @Autowired
     AmazonDynamoDBClient dynamoDBClient;
+
+    private RedisTemplate<String, String> redisTemplate;
+
+    @Autowired
+    public UserDetailsService(RedisTemplate<String, String> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     public void UpdateUserDetailsAt(String id, UserDetails user){
         //UserID : null Name:null URL:null role:CEO Region:null Education: null workex: null Summary:null Ed Details:null Skills:null cerification:null lastseen:null
@@ -78,6 +86,46 @@ public class UserDetailsService {
         UpdateItemResult res = dynamoDBClient.updateItem(updateItemRequest);
 
         //TODO insert into redis - user ID , name , Image
+        String insertTag;
+
+        if(user.getUser_name()==null) {
+
+            UserDetails getCompany = mapper.load(UserDetails.class, id);
+//            Table company_table = dyDB.getTable("UserDetails");
+//            GetItemSpec spec = new GetItemSpec()
+//                    .withPrimaryKey("id", user.getId())
+//                    .withProjectionExpression("user_name")
+//                    .withConsistentRead(true);
+//            Item item = company_table.getItem(spec);
+
+            //redis HASH-MAP
+            String tag = getCompany.getUser_name().toLowerCase();
+            insertTag = tag.replace(" ", "_");
+        }
+        else
+        {
+            insertTag = user.getUser_name().replace(" ","_");
+        }
+
+        String default_image = "assets/images/sample.jpg";
+        final String keyForHash = String.format( "users:%s", insertTag );
+        final Map< String, Object > properties = new HashMap< String, Object >();
+
+        properties.put("user_id", id);
+        if(user.getImg()!=null) {
+            properties.put("img", user.getImg());
+        }
+        else{
+            properties.put("img", default_image);
+        }
+        if(user.getRegion()!=null)
+            properties.put("region",user.getRegion());
+        else
+            properties.put("region"," ");
+
+
+        //query: hgetall jobs:11 / 11 is jobID
+        redisTemplate.opsForHash().putAll(keyForHash, properties);
 
     }
 
