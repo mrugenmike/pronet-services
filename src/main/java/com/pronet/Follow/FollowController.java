@@ -1,4 +1,4 @@
-package com.pronet.follow;
+package com.pronet.Follow;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
