@@ -31,7 +31,7 @@ public class signUpController {
                 throw new BadRequestException("Error in Request Body");
             }
 
-            signUpService.signUpUserAt(model);
+            signUpService.signUpUser(model);
 
         }
     }

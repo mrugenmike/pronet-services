@@ -27,7 +27,7 @@ public class SignUpService {
     DynamoDBMapper mapper;
 
 
-    public void signUpUserAt(SignUp model) throws EmptyResultDataAccessException {
+    public void signUpUser(SignUp model) throws EmptyResultDataAccessException {
 
         try {
             String sql = "SELECT ID FROM user_login WHERE email ='" + model.getEmail() + "'";
