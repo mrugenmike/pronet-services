@@ -11,12 +11,12 @@ import javax.validation.Valid;
 @RestController
 @Component("signUpController")
 @RequestMapping("/api/v1")
-public class signUpController {
+public class SignUpController {
 
     SignUpService signUpService;
 
     @Autowired
-    public signUpController(SignUpService signUpService) {
+    public SignUpController(SignUpService signUpService) {
         this.signUpService = signUpService;
     }
 
