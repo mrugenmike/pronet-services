@@ -20,7 +20,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @org.springframework.context.annotation.Configuration
 @EnableAutoConfiguration
 @ComponentScan
-@PropertySource(value = {"classpath:/db-rds.properties","classpath:/db-redis.properties","classpath:/dynamo.properties","classpath:/aws.properties" },ignoreResourceNotFound = false)
+@PropertySource(value = {"classpath:/db-redis.properties","classpath:/dynamo.properties","classpath:/aws.properties" },ignoreResourceNotFound = false)
 public class PronetConfig {
 
     //Redis Connection

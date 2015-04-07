@@ -1,5 +1,9 @@
 package com.pronet.search;
 
+import com.pronet.search.jobs.JobListing;
+import com.pronet.search.jobs.JobListings;
+import com.pronet.search.jobs.JobSearchResource;
+import com.pronet.search.jobs.JobSearchService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
