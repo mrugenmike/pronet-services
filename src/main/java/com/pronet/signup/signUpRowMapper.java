@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class signUpRowMapper implements RowMapper
+public class SignUpRowMapper implements RowMapper
 {
         public Object mapRow (ResultSet rs,int rowNum)throws SQLException {
             SignUp signUp = new SignUp();

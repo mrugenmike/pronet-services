@@ -8,7 +8,7 @@ import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.pronet.BadRequestException;
 import com.pronet.company.CompanyDetails;
 import com.pronet.signup.SignUp;
-import com.pronet.signup.signUpRowMapper;
+import com.pronet.signup.SignUpRowMapper;
 import com.pronet.userdetails.UserDetails;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class ProfileService {
 
             //fetch the login details for the ID
             String sql1 = "SELECT * FROM user_login WHERE ID =" + Id ;
-            List<SignUp> user = jdbcTemplate.query(sql1, new signUpRowMapper());
+            List<SignUp> user = jdbcTemplate.query(sql1, new SignUpRowMapper());
 
             for(SignUp u : user) {
                 //select user_details from dynamo

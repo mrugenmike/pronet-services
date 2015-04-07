@@ -4,7 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.pronet.BadRequestException;
 import com.pronet.signup.SignUp;
-import com.pronet.signup.signUpRowMapper;
+import com.pronet.signup.SignUpRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,7 +35,7 @@ public class SignInService {
 
             //fetch the login details for the ID
             String sql1 = "SELECT * FROM user_login WHERE ID =" + id ;
-            List<SignUp> user = jdbcTemplate.query(sql1, new signUpRowMapper());
+            List<SignUp> user = jdbcTemplate.query(sql1, new SignUpRowMapper());
 
             for(SignUp u : user) {
                 if (!u.getPassword().equals(model.getPassword()))
