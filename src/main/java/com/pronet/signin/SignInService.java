@@ -3,7 +3,7 @@ package com.pronet.signin;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.pronet.BadRequestException;
-import com.pronet.signup.signUpModel;
+import com.pronet.signup.SignUp;
 import com.pronet.signup.signUpRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -35,9 +35,9 @@ public class SignInService {
 
             //fetch the login details for the ID
             String sql1 = "SELECT * FROM user_login WHERE ID =" + id ;
-            List<signUpModel> user = jdbcTemplate.query(sql1, new signUpRowMapper());
+            List<SignUp> user = jdbcTemplate.query(sql1, new signUpRowMapper());
 
-            for(signUpModel u : user) {
+            for(SignUp u : user) {
                 if (!u.getPassword().equals(model.getPassword()))
                     throw new BadRequestException("Invalid email or password ");
 

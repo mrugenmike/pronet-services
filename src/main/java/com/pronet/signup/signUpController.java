@@ -22,7 +22,7 @@ public class signUpController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void signUpUser(@Valid @RequestBody signUpModel model, BindingResult result) {
+    public void signUpUser(@Valid @RequestBody SignUp model, BindingResult result) {
         {
             if (model.getUser_name() == null || model.getUser_name().trim().equals(""))
                 throw new BadRequestException("Require Name");
@@ -30,7 +30,6 @@ public class signUpController {
             if (result.hasErrors()) {
                 throw new BadRequestException("Error in Request Body");
             }
-            System.out.println(model.getEmail());
 
             signUpService.signUpUserAt(model);
 

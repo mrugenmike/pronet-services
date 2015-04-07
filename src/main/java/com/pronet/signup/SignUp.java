@@ -4,7 +4,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-public class signUpModel {
+public class SignUp {
 
     private String ID;
 
@@ -47,10 +47,10 @@ public class signUpModel {
         this.last_seen = last_seen;
     }
 
-    public signUpModel(){}
+    public SignUp(){}
 
 
-    public signUpModel(@JsonProperty String user_name, @JsonProperty String email, @JsonProperty String password , @JsonProperty String role) {
+    public SignUp(@JsonProperty String user_name, @JsonProperty String email, @JsonProperty String password, @JsonProperty String role) {
         this.user_name = user_name;
         this.email = email;
         this.password = password;

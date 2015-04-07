@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class signUpRowMapper implements RowMapper
 {
         public Object mapRow (ResultSet rs,int rowNum)throws SQLException {
-            signUpModel signUp = new signUpModel();
+            SignUp signUp = new SignUp();
             signUp.setID(rs.getString(1));
             signUp.setUser_name(rs.getString(2));
             signUp.setEmail(rs.getString(3));
