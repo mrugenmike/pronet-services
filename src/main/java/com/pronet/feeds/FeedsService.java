@@ -86,7 +86,7 @@ public class FeedsService {
         JSONObject jsonObject = new JSONObject();
         try {
 
-            String getUserFeeds = "SELECT feed_title,feed_description FROM feeds WHERE user_id ='"
+            String getUserFeeds = "SELECT feed_id,feed_title,feed_description FROM feeds WHERE user_id ='"
                     + id + "' and feed_role = 'U'";
 
             List tmp = jdbcTemplate.queryForList(getUserFeeds);
@@ -94,7 +94,7 @@ public class FeedsService {
             UserDetails getUser = mapper.load(UserDetails.class, id);
             jsonObject.put("user_name",getUser.getUser_name());
 
-            jsonObject.put("feeds",tmp);
+            jsonObject.put("feeds", tmp);
             return jsonObject;
         }
         catch(EmptyResultDataAccessException e)
@@ -111,7 +111,7 @@ public class FeedsService {
         JSONObject jsonObject = new JSONObject();
         try {
 
-            String getUserFeeds = "SELECT feed_title,feed_description FROM feeds WHERE user_id ='"
+            String getUserFeeds = "SELECT feed_id,feed_title,feed_description FROM feeds WHERE user_id ='"
                     + id + "' and feed_role = 'C'" ;
 
             List tmp = jdbcTemplate.queryForList(getUserFeeds);
@@ -120,6 +120,24 @@ public class FeedsService {
             jsonObject.put("user_name",getCompany.getUser_name());
             jsonObject.put("feeds",tmp);
             return jsonObject;
+        }
+        catch(EmptyResultDataAccessException e)
+        {
+
+            throw new BadRequestException(e.getMessage());
+        }
+
+    }
+
+    public void deleteFeedAt(String id) throws Exception{
+
+        try {
+
+            String getUserFeeds = "DELETE FROM feeds WHERE feed_id ='"
+                    + id+"'" ;
+
+            jdbcTemplate.execute(getUserFeeds);
+
         }
         catch(EmptyResultDataAccessException e)
         {

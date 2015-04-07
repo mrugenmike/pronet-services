@@ -24,7 +24,7 @@ public class FeedsController{
     }
 
     //POST User Feeds
-    @RequestMapping(value = "/users/{id}/feeds",method= RequestMethod.POST)
+    @RequestMapping(value = "/feeds/users/{id}",method= RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public @ResponseBody
     FeedsModel newUserFeed(@PathVariable(value="id") String id,@Valid @RequestBody FeedsModel feed, BindingResult result) throws Exception
@@ -37,7 +37,7 @@ public class FeedsController{
         return fService.newUserFeedAt(id,feed);
     }
     //Get User Feeds
-    @RequestMapping(value = "/company/{id}/feeds",method= RequestMethod.POST)
+    @RequestMapping(value = "/feeds/company/{id}",method= RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public @ResponseBody
     FeedsModel newCompanyFeed(@PathVariable(value="id") String id,@Valid @RequestBody FeedsModel feed, BindingResult result) throws Exception
@@ -51,7 +51,7 @@ public class FeedsController{
     }
 
     //Get User Feeds
-    @RequestMapping(value = "/users/{id}/feeds",method= RequestMethod.GET)
+    @RequestMapping(value = "/feeds/users/{id}",method= RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
     JSONObject getUserFeed(@PathVariable(value="id") String id) throws Exception
@@ -60,11 +60,20 @@ public class FeedsController{
     }
 
     //Get Company Feeds
-    @RequestMapping(value = "/company/{id}/feeds",method= RequestMethod.GET)
+    @RequestMapping(value = "/feeds/company/{id}",method= RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
     JSONObject getCompanyFeed(@PathVariable(value="id") String id) throws Exception
     {
         return fService.getCompanyFeedAt(id);
+    }
+
+    //delete feeds
+    @RequestMapping(value = "/feeds/{id}",method= RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    void deleteFeed(@PathVariable(value="id") String id) throws Exception
+    {
+        fService.deleteFeedAt(id);
     }
 }

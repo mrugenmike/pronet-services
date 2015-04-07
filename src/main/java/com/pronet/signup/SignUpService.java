@@ -55,9 +55,24 @@ public class SignUpService {
                 table = dyDB.getTable("CompanyProfile");
 
             Map<String, AttributeValue> item = new HashMap<String, AttributeValue>();
-            Item dyn = new Item()
-                    .withPrimaryKey("id", insertedID)
-                    .withString("user_name", model.getUser_name());
+            Item dyn = new Item();
+            if(model.getRole().equals("U"))
+            {
+                dyn.withPrimaryKey("id", insertedID)
+                        .withString("img", " ")
+                        .withString("role",model.getUser_name());
+
+            }
+            else
+            {
+                dyn.withPrimaryKey("id", insertedID)
+                        .withString("user_name", model.getUser_name())
+                        .withString("url", "http://")
+                        .withString("logo", "assets/images/sample.jpg")
+                        .withString("overview", " ")
+                        .withString("role", model.getRole());
+
+            }
 
             table.putItem(dyn);
 

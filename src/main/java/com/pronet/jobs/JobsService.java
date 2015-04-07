@@ -92,10 +92,17 @@ public class JobsService {
         String tag = model.getJtitle().replace(" ","_");
 
         final String keyForSet = String.format( "tags:jobs:%s", tag );
-        System.out.println(keyForSet);
         //populating tags for search
         //ZRANGE tags:jobs:new_position_for_SE 0 1 WITHSCORES
         redisTemplate.opsForZSet().add(keyForSet, jid, 0);
+
+        //redis for region tag
+        String tag1 = model.getJob_region();
+        final String keyForSet1 = String.format( "tags:jobs:%s", tag1 );
+        //populating tags for search
+        //ZRANGE tags:jobs:new_position_for_SE 0 1 WITHSCORES
+        redisTemplate.opsForZSet().add(keyForSet1, jid, 0);
+
     }
 
     public JSONObject getJobDetailsAt(String jid){

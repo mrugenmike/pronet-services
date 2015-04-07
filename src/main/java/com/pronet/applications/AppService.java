@@ -23,6 +23,9 @@ public void jobAppAt(AppModel model) throws Exception{
 
     try{
 
+        //org.joda.time.LocalDate date = new org.joda.time.LocalDate();
+        //System.out.println(date);
+
         String sql = "SELECT name FROM user_login WHERE ID =" + model.getUser_id() ;
         String user_name = jdbcTemplate.queryForObject(sql, String.class);
 
@@ -57,7 +60,30 @@ public void jobAppAt(AppModel model) throws Exception{
 
             List tmp = jdbcTemplate.queryForList(getApps);
 
-            jsonObject.put("jobs",tmp);
+            jsonObject.put("jobs", tmp);
+
+            return jsonObject;
+
+        }
+        catch(Exception e){
+
+            throw new BadRequestException(e.getMessage());
+        }
+
+
+    }
+
+    public JSONObject getAllUserAppsAt(String u_id) throws Exception{
+
+        JSONObject jsonObject = new JSONObject();
+
+        try{
+
+            String getApps = "SELECT company_name,job_title,app_date FROM job_apps WHERE user_id =" + u_id ;
+
+            List tmp = jdbcTemplate.queryForList(getApps);
+
+            jsonObject.put("jobs", tmp);
 
             return jsonObject;
 

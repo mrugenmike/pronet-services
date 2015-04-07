@@ -4,7 +4,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 public class AppModel {
 
-    @JsonProperty
     String job_app_id;
     @JsonProperty
     String job_id;

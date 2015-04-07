@@ -37,11 +37,21 @@ public class AppController {
 
     }
     //get all job applications for company
-    @RequestMapping(value = "/jobs/{c_id}/appDetails", method = RequestMethod.GET)
+    @RequestMapping(value = "/jobs/apps/{c_id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public JSONObject getAllJobs(@PathVariable("c_id") String c_id) throws Exception {
 
         return appService.getAllJobsAt(c_id);
+
+
+    }
+
+    //get all job applications for users
+    @RequestMapping(value = "/jobs/userapps/{u_id}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public JSONObject getAllUserApps(@PathVariable("u_id") String u_id) throws Exception {
+
+        return appService.getAllUserAppsAt(u_id);
 
 
     }

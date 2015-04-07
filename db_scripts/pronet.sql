@@ -87,7 +87,8 @@ CREATE TABLE `job_apps` (
   PRIMARY KEY (`job_app_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
+ALTER TABLE job_apps
+MODIFY COLUMN app_date date
 --
 -- Dumping data for table `job_apps`
 --
