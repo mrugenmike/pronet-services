@@ -1,4 +1,4 @@
-package com.pronet.search;
+package com.pronet.search.jobs;
 
 import com.pronet.search.jobs.JobListing;
 import com.pronet.search.jobs.JobListings;
