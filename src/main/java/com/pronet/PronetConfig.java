@@ -6,6 +6,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.pronet.scheduler.jobs.JobPostingRemovalScheduler;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -16,10 +17,12 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @org.springframework.context.annotation.Configuration
 @EnableAutoConfiguration
 @ComponentScan
+@EnableScheduling
 @PropertySource(value = {"classpath:/db-redis.properties","classpath:/dynamo.properties","classpath:/aws.properties" },ignoreResourceNotFound = false)
 public class PronetConfig {
 
@@ -104,7 +107,6 @@ public class PronetConfig {
         basicDataSource.setPassword(rdsPassword);
         return new JdbcTemplate(basicDataSource);
     }
-
 
 
 }
