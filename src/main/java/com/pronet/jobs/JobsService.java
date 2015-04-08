@@ -39,9 +39,9 @@ public class JobsService {
 
         String id = model.getId();
         String description = model.getDesc();
-        String title = model.getJtitle();
-        String sdate = model.getStart_date();
-        String exdate = model.getEx_date();
+        String jtitle = model.getJtitle();
+        String start_date = model.getStart_date();
+        String ex_date = model.getEx_date();
         String region = model.getJob_region();
         String status = model.getStatus();
         String skills = model.getSkills();
@@ -54,14 +54,13 @@ public class JobsService {
         Item jobItem = new Item()
                 .withPrimaryKey("jid", jid)
                 .withString("id", id)
-                .withString("title", title)
+                .withString("jtitle", jtitle)
                 .withString("description", description)
                 .withString("skills", skills)
                 .withString("status", status)
                 .withString("job_region", region)
-                .withString("sdate", sdate)
-                .withString("exdate", exdate
-                );
+                .withString("start_date", start_date)
+                .withString("ex_date", ex_date);
 
         jobtable.putItem(jobItem);
 
