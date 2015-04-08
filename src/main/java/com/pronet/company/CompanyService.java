@@ -45,12 +45,13 @@ public class CompanyService {
         Map<String, Object> itemValue = new HashMap<String, Object>();
 
             itemName.put("#overview", "overview");
-
-            itemValue.put(":overview", companyDetails.getOverview());
+            itemName.put("#url", "url");
+            itemValue.put(":overview,", companyDetails.getOverview());
+            itemValue.put(":url,", companyDetails.getUrl());
             UpdateItemOutcome outcome =  companyProfileTable.updateItem(
                     "id",          // key attribute name
                     companyDetails.getId(),           // key attribute value
-                    "set #overview =:overview", // UpdateExpression
+                    "set #overview =:overview,#url=:url", // UpdateExpression
                     itemName,
                     itemValue);
 

@@ -69,7 +69,7 @@ public class SignUpService {
                         .withString("user_name", model.getUser_name())
                         .withString("url", "http://")
                         .withString("logo", "/assets/images/sample.jpg")
-                        .withString("overview", " ")
+                        .withString("overview", "overview")
                         .withString("role", model.getRole());
 
             }
