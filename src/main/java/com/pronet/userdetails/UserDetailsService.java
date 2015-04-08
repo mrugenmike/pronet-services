@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.model.*;
 import com.pronet.BadRequestException;
+import com.pronet.search.users.UserFields;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -111,17 +112,19 @@ public class UserDetailsService {
         final String keyForHash = String.format( "users:%s", insertTag );
         final Map< String, Object > properties = new HashMap< String, Object >();
 
-        properties.put("user_id", id);
+
+        properties.put(UserFields.USERID.toString(), id);
+        properties.put(UserFields.NAME.toString(),insertTag);
         if(user.getImg()!=null) {
-            properties.put("img", user.getImg());
+            properties.put(UserFields.USERLOGO.toString(), user.getImg());
         }
         else{
-            properties.put("img", default_image);
+            properties.put(UserFields.USERLOGO.toString(), default_image);
         }
         if(user.getRegion()!=null)
-            properties.put("region",user.getRegion());
+            properties.put(UserFields.REGION.toString(),user.getRegion());
         else
-            properties.put("region"," ");
+            properties.put(UserFields.REGION.toString(),"Not Available");
 
 
         //query: hgetall jobs:11 / 11 is jobID
