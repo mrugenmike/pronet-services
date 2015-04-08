@@ -113,21 +113,21 @@ public class JobsService {
         Table company_table1 = dyDB.getTable("JobPosting");
         GetItemSpec spec1 = new GetItemSpec()
                 .withPrimaryKey("jid", jid)
-                .withProjectionExpression("id,description,job_region,skills,title")
+                .withProjectionExpression("id,description,job_region,skills,jtitle")
                 .withConsistentRead(true);
         Item item1 = company_table1.getItem(spec1);
 
 
         Table company_table = dyDB.getTable("CompanyProfile");
         GetItemSpec spec = new GetItemSpec()
-                .withPrimaryKey("id", "2")
+                .withPrimaryKey("id", item1.get("id"))
                 .withProjectionExpression("id,logo,user_name")
                 .withConsistentRead(true);
         Item item = company_table.getItem(spec);
 
         jsonObject.put("jid",jid);
         jsonObject.put("c_id",item.get("id"));//company ID
-        jsonObject.put("title",item1.get("title"));
+        jsonObject.put("jtitle",item1.get("jtitle"));
         jsonObject.put("description",item1.get("description"));
         jsonObject.put("user_name",item.get("user_name"));
         jsonObject.put("logo",item.get("logo"));

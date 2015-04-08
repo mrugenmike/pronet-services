@@ -5,8 +5,10 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.pronet.BadRequestException;
+import com.pronet.search.users.CompanyFields;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +22,9 @@ public class CompanyService {
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
     @Autowired
-    public CompanyService(JdbcTemplate jdbcTemplate){
+    public CompanyService(JdbcTemplate jdbcTemplate,RedisTemplate<String, String> redisTemplate){
         this.jdbcTemplate = jdbcTemplate;
+        this.redisTemplate = redisTemplate;
     }
 
     @Autowired
@@ -29,6 +32,8 @@ public class CompanyService {
 
     @Autowired
     DynamoDBMapper mapper;
+
+    private RedisTemplate<String, String> redisTemplate;
 
 
     public JSONObject updateDetailsAt(CompanyDetails companyDetails){
@@ -54,6 +59,21 @@ public class CompanyService {
         jsonObject.put("logo", companyDetails.getLogo());
         jsonObject.put("url", companyDetails.getUrl());
         jsonObject.put("overview",companyDetails.getOverview());
+
+        //inserting company details into redis for search
+        String c_id_redis = companyDetails.getId();
+        String tag = companyDetails.getUser_name().replace(" ","_");
+        final String keyForHash = String.format( "company:%s", tag );
+        final Map< String, Object > properties = new HashMap< String, Object >();
+
+
+        properties.put(CompanyFields.COMPANYID.toString(), c_id_redis);
+        properties.put(CompanyFields.COMPANYNAME.toString(),tag);
+        properties.put(CompanyFields.COMAPANYLOGO.toString(),companyDetails.getLogo());
+
+
+        //query: hgetall jobs:11 / 11 is jobID
+        redisTemplate.opsForHash().putAll(keyForHash, properties);
 
         return jsonObject;
 

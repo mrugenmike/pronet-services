@@ -68,7 +68,7 @@ public class SignUpService {
                 dyn.withPrimaryKey("id", insertedID)
                         .withString("user_name", model.getUser_name())
                         .withString("url", "http://")
-                        .withString("logo", "assets/images/sample.jpg")
+                        .withString("logo", "/assets/images/sample.jpg")
                         .withString("overview", " ")
                         .withString("role", model.getRole());
 

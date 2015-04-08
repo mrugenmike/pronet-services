@@ -108,7 +108,7 @@ public class UserDetailsService {
             insertTag = user.getUser_name().replace(" ","_");
         }
 
-        String default_image = "assets/images/sample.jpg";
+        String default_image = "/assets/images/sample.jpg";
         final String keyForHash = String.format( "users:%s", insertTag );
         final Map< String, Object > properties = new HashMap< String, Object >();
 

@@ -72,7 +72,7 @@ Logger logger = LoggerFactory.getLogger(JobPostingRemovalScheduler.class);
             final String key = JobSearchService.jobTags +":"+jobTitle;
             final String jid = item.get("jid").getS();
             redisClient.opsForZSet().remove(key, jid);
-            redisClient.opsForHash().delete(JobSearchService.jobsSchema+jid);
+            redisClient.opsForHash().getOperations().delete(JobSearchService.jobsSchema+jid);
         });
     }
 }
