@@ -1,8 +1,10 @@
 package com.pronet.jobs;
 
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
 import org.json.simple.JSONObject;
@@ -30,6 +32,9 @@ public class JobsService {
     private RedisTemplate<String, String> redisTemplate;
 
     @Autowired
+    AmazonDynamoDBClient client = new AmazonDynamoDBClient();
+
+    @Autowired
     public JobsService(RedisTemplate<String, String> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
@@ -38,7 +43,7 @@ public class JobsService {
     public void saveJobPostAt(JobsModel model){
 
         String id = model.getId();
-        String description = model.getDesc();
+        String desc = model.getDesc();
         String jtitle = model.getJtitle();
         String start_date = model.getStart_date();
         String ex_date = model.getEx_date();
@@ -55,7 +60,7 @@ public class JobsService {
                 .withPrimaryKey("jid", jid)
                 .withString("id", id)
                 .withString("jtitle", jtitle)
-                .withString("description", description)
+                .withString("desc", desc)
                 .withString("skills", skills)
                 .withString("status", status)
                 .withString("job_region", region)
@@ -113,7 +118,7 @@ public class JobsService {
         Table company_table1 = dyDB.getTable("JobPosting");
         GetItemSpec spec1 = new GetItemSpec()
                 .withPrimaryKey("jid", jid)
-                .withProjectionExpression("id,description,job_region,skills,jtitle")
+                .withProjectionExpression("id,desc,job_region,skills,jtitle")
                 .withConsistentRead(true);
         Item item1 = company_table1.getItem(spec1);
 
@@ -126,9 +131,9 @@ public class JobsService {
         Item item = company_table.getItem(spec);
 
         jsonObject.put("jid",jid);
-        jsonObject.put("c_id",item.get("id"));//company ID
+        jsonObject.put("id",item.get("id"));//company ID
         jsonObject.put("jtitle",item1.get("jtitle"));
-        jsonObject.put("description",item1.get("description"));
+        jsonObject.put("desc",item1.get("desc"));
         jsonObject.put("user_name",item.get("user_name"));
         jsonObject.put("logo",item.get("logo"));
         jsonObject.put("skills",item1.get("skills"));
@@ -136,9 +141,14 @@ public class JobsService {
 
         return jsonObject;
 
-
-
-
-
     }
+
+    public void deleteJobAt(String jid){
+
+        String tableName = "JobPosting";
+        final Table jobpostings = dyDB.getTable(tableName);
+        jobpostings.deleteItem(new PrimaryKey("jid", jid));
+
+
+        }
 }
