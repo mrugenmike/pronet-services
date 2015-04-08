@@ -1,4 +1,4 @@
-package com.pronet.search.users;
+package com.pronet.search.company;
 
 public enum CompanyFields {
 
