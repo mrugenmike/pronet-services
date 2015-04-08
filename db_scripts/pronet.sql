@@ -40,6 +40,9 @@ LOCK TABLES `feeds` WRITE;
 /*!40000 ALTER TABLE `feeds` DISABLE KEYS */;
 INSERT INTO `feeds` VALUES (1,2,'this is a feed','feeds are here','C'),(2,1,'this is a user feed','this is user','U'),(3,1,'this is a user feed','this is user','U'),(4,1,'this is a user feed','second is user','U');
 /*!40000 ALTER TABLE `feeds` ENABLE KEYS */;
+
+ALTER table feeds add column user_name varchar(200);
+ALTER table feeds add column img varchar(200)
 UNLOCK TABLES;
 
 --

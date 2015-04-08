@@ -33,17 +33,20 @@ public class FeedsService {
 
     //POST new user feed
     public FeedsModel newUserFeedAt(String id, FeedsModel feed) throws Exception {
+
         feed.setUserID(id);
         feed.setFeed_role("U");
 
         try{
 
             jdbcTemplate.execute(
-                    "INSERT INTO feeds(user_id,feed_title,feed_description,feed_role) values('"
+                    "INSERT INTO feeds(user_id,feed_title,feed_description,feed_role,img,user_name) values('"
                             + feed.getUserID() + "','"
                             + feed.getFeed_title()+ "','"
                             + feed.getFeed_description() + "','"
-                            + feed.getFeed_role()+"')");
+                            + feed.getFeed_role() + "','"
+                            + feed.getImg()+ "','"
+                            + feed.getUser_name()+"')");
 
 
         }
@@ -58,17 +61,23 @@ public class FeedsService {
 
     //POST new Company Feed
     public FeedsModel newCompanyFeedAt(String id, FeedsModel feed) throws Exception {
+
+        CompanyDetails getUser = mapper.load(CompanyDetails.class, id);
         feed.setUserID(id);
         feed.setFeed_role("C");
+        feed.setImg(getUser.getLogo());
+        feed.setUser_name(getUser.getUser_name());
 
         try{
 
             jdbcTemplate.execute(
-                    "INSERT INTO feeds(user_id,feed_title,feed_description,feed_role) values('"
+                    "INSERT INTO feeds(user_id,feed_title,feed_description,feed_role,img,user_name) values('"
                             + feed.getUserID() + "','"
                             + feed.getFeed_title()+ "','"
                             + feed.getFeed_description() + "','"
-                            + feed.getFeed_role()+"')");
+                            + feed.getFeed_role()+ "','"
+                            + getUser.getLogo() + "','"
+                            + getUser.getUser_name()+"')");
 
 
         }
@@ -86,15 +95,16 @@ public class FeedsService {
         JSONObject jsonObject = new JSONObject();
         try {
 
-            String getUserFeeds = "SELECT feed_id,feed_title,feed_description FROM feeds WHERE user_id ='"
-                    + id + "' and feed_role = 'U'";
+            String getUserFeeds = "SELECT * from feeds where user_id in (select followeeID from follow where followerID = '"
+                    + id + "') or user_id = '" + id + "' ORDER BY feed_id DESC";
 
-            List tmp = jdbcTemplate.queryForList(getUserFeeds);
+            List userFeeds = jdbcTemplate.queryForList(getUserFeeds);
 
             UserDetails getUser = mapper.load(UserDetails.class, id);
             jsonObject.put("user_name",getUser.getUser_name());
-
-            jsonObject.put("feeds", tmp);
+            jsonObject.put("user_id",id);
+            jsonObject.put("img",getUser.getImg());
+            jsonObject.put("user_feeds", userFeeds);
             return jsonObject;
         }
         catch(EmptyResultDataAccessException e)

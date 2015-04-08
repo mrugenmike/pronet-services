@@ -36,7 +36,7 @@ public class FeedsController{
         }
         return fService.newUserFeedAt(id,feed);
     }
-    //Get User Feeds
+    //POST user feeds
     @RequestMapping(value = "/feeds/company/{id}",method= RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public @ResponseBody
