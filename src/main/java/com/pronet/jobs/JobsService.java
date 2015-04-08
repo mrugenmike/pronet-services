@@ -7,9 +7,11 @@ import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
+import com.pronet.BadRequestException;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +33,10 @@ public class JobsService {
 
     private RedisTemplate<String, String> redisTemplate;
 
+
+    @Autowired
+    StringRedisTemplate redisClient;
+
     @Autowired
     AmazonDynamoDBClient client = new AmazonDynamoDBClient();
 
@@ -40,7 +46,7 @@ public class JobsService {
     }
 
 
-    public void saveJobPostAt(JobsModel model){
+    public void saveJobPostAt(JobsModel model) {
 
         String id = model.getId();
         String desc = model.getDesc();
@@ -53,7 +59,7 @@ public class JobsService {
 
         Table jobtable = dyDB.getTable("JobPosting");
 
-        String jid = 1 + ((int)(Math.random()*2000))+"";
+        String jid = 1 + ((int) (Math.random() * 2000)) + "";
         model.setJid(jid);
 
         Item jobItem = new Item()
@@ -80,37 +86,36 @@ public class JobsService {
         //System.out.println(item.toJSONPretty());
 
         //redis HASH-MAP
-        final String keyForHash = String.format( "jobs:%s", model.getJid() );
-        final Map< String, Object > properties = new HashMap< String, Object >();
+        final String keyForHash = String.format("jobs:%s", model.getJid());
+        final Map<String, Object> properties = new HashMap<String, Object>();
 
-        properties.put("companyId", model.getId() );
+        properties.put("companyId", model.getId());
         properties.put("positionTitle", model.getJtitle());
         properties.put("companyName", item.get("user_name"));//how will i get company name???
         properties.put("companyLogoUrl", item.get("logo"));//from s3 get url
         properties.put("positionLocation", model.getJob_region());
-        properties.put("status",model.getStatus());
+        properties.put("status", model.getStatus());
 
         //query: hgetall jobs:11 / 11 is jobID
         redisTemplate.opsForHash().putAll(keyForHash, properties);
 
-        String tag = model.getJtitle().replace(" ","_");
+        String tag = model.getJtitle().replace(" ", "_");
 
-        final String keyForSet = String.format( "tags:jobs:%s", tag );
+        final String keyForSet = String.format("tags:jobs:%s", tag);
         //populating tags for search
         //ZRANGE tags:jobs:new_position_for_SE 0 1 WITHSCORES
         redisTemplate.opsForZSet().add(keyForSet, jid, 0);
 
         //redis for region tag
         String tag1 = model.getJob_region();
-        final String keyForSet1 = String.format( "tags:jobs:%s", tag1 );
+        final String keyForSet1 = String.format("tags:jobs:%s", tag1);
         //populating tags for search
         //ZRANGE tags:jobs:new_position_for_SE 0 1 WITHSCORES
         redisTemplate.opsForZSet().add(keyForSet1, jid, 0);
 
     }
 
-    public JSONObject getJobDetailsAt(String jid){
-
+    public JSONObject getJobDetailsAt(String jid) {
 
 
         JSONObject jsonObject = new JSONObject();
@@ -130,25 +135,44 @@ public class JobsService {
                 .withConsistentRead(true);
         Item item = company_table.getItem(spec);
 
-        jsonObject.put("jid",jid);
-        jsonObject.put("id",item.get("id"));//company ID
-        jsonObject.put("jtitle",item1.get("jtitle"));
-        jsonObject.put("desc",item1.get("desc"));
-        jsonObject.put("user_name",item.get("user_name"));
-        jsonObject.put("logo",item.get("logo"));
-        jsonObject.put("skills",item1.get("skills"));
-        jsonObject.put("job_region",item1.get("job_region"));
+        jsonObject.put("jid", jid);
+        jsonObject.put("id", item.get("id"));//company ID
+        jsonObject.put("jtitle", item1.get("jtitle"));
+        jsonObject.put("desc", item1.get("desc"));
+        jsonObject.put("user_name", item.get("user_name"));
+        jsonObject.put("logo", item.get("logo"));
+        jsonObject.put("skills", item1.get("skills"));
+        jsonObject.put("job_region", item1.get("job_region"));
 
         return jsonObject;
 
     }
 
-    public void deleteJobAt(String jid){
+    public void deleteJobAt(String jid) throws Exception {
 
-        String tableName = "JobPosting";
-        final Table jobpostings = dyDB.getTable(tableName);
-        jobpostings.deleteItem(new PrimaryKey("jid", jid));
+        try {
 
+            Table getJob = dyDB.getTable("JobPosting");
+            GetItemSpec spec = new GetItemSpec()
+                    .withPrimaryKey("jid", jid)
+                    .withProjectionExpression("jtitle")
+                    .withConsistentRead(true);
+            Item item = getJob.getItem(spec);
+
+            String tableName = "JobPosting";
+            final Table jobpostings = dyDB.getTable(tableName);
+            jobpostings.deleteItem(new PrimaryKey("jid", jid));
+
+            //delete from Redis
+
+            String jobTitle = item.get("jtitle").toString().toLowerCase().replace(" ", "_");
+            final String key = "tags:jobs:" + jobTitle;
+            redisClient.opsForZSet().remove(key, jid);
+            redisClient.opsForHash().getOperations().delete("jobs:" + jid);
+        } catch (Exception e) {
+
+            throw new BadRequestException("Unable to Delete");
 
         }
+    }
 }

@@ -46,7 +46,7 @@ public class JobsController {
     }
 
     @RequestMapping(value = "/jobs/{jid}", method = RequestMethod.DELETE)
-    public void deleteJob(@PathVariable("jid") String jid) {
+    public void deleteJob(@PathVariable("jid") String jid) throws Exception{
 
          jobsService.deleteJobAt(jid);
     }
