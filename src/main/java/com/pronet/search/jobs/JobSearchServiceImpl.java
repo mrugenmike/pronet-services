@@ -16,10 +16,6 @@ public class JobSearchServiceImpl implements JobSearchService {
         this.redisTemplate = redisTemplate;
     }
 
-    private String jobTags = "tags:jobs".intern();
-    private String jobsSchema = "jobs:".intern();
-    private String setKey = "0".intern();
-
     @Override
     public JobListings fetchJobListings(String term,int skipResults,int limitResults ) {
         if(term!=null||!term.isEmpty()){
