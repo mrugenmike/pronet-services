@@ -1,6 +1,7 @@
 package com.pronet.jobs;
 
 import com.pronet.BadRequestException;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -49,6 +50,12 @@ public class JobsController {
     public void deleteJob(@PathVariable("jid") String jid) throws Exception{
 
          jobsService.deleteJobAt(jid);
+    }
+
+    @RequestMapping(value = "/jobs/company/{c_id}", method = RequestMethod.GET)
+    public JSONArray getAllCompanyJobs(@PathVariable("c_id") String c_id) throws Exception{
+
+        return jobsService.getAllCompanyJobsAt(c_id);
     }
 
     }

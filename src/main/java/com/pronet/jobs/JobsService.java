@@ -2,12 +2,10 @@ package com.pronet.jobs;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.amazonaws.services.dynamodbv2.document.Item;
-import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
-import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.*;
 import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
 import com.pronet.BadRequestException;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -15,8 +13,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component("JobsService")
 public class JobsService {
@@ -128,7 +125,6 @@ public class JobsService {
         Item item1 = company_table1.getItem(spec1);
 
 
-
         Table company_table = dyDB.getTable("CompanyProfile");
         GetItemSpec spec = new GetItemSpec()
                 .withPrimaryKey("id", item1.get("id"))
@@ -176,4 +172,33 @@ public class JobsService {
 
         }
     }
+
+    public JSONArray getAllCompanyJobsAt(String c_id) {
+
+        String table = "JobPosting";
+
+
+//        ScanRequest scanRequest = new ScanRequest()
+//                .withTableName(table).withFilterExpression("id = :7");
+//        final ScanResult scan = client.scan(scanRequest);
+//        List results = scan.getItems();
+        JSONArray results = new JSONArray();
+
+        Table table1 = dyDB.getTable(table);
+        Map<String, Object> expressionAttributeValues = new HashMap<String, Object>();
+        expressionAttributeValues.put(":ID", c_id);
+        ItemCollection<ScanOutcome> items = table1.scan(
+                "id = :ID", //FilterExpression
+                "jtitle,description", //ProjectionExpression
+                null,
+                expressionAttributeValues);
+        Iterator<Item> iterator = items.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next().toJSONPretty());
+            results.add(iterator.next().toJSONPretty());
+
+        }
+        return results;
+    }
+
 }

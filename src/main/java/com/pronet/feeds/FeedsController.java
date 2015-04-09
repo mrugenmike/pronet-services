@@ -2,7 +2,6 @@ package com.pronet.feeds;
 
 
 import com.pronet.BadRequestException;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -64,7 +63,7 @@ public class FeedsController{
     @RequestMapping(value = "/company/feeds/{id}",method= RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    JSONObject getCompanyFeed(@PathVariable(value="id") String id) throws Exception
+    List getCompanyFeed(@PathVariable(value="id") String id) throws Exception
     {
         return fService.getCompanyFeedAt(id);
     }

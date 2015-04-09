@@ -5,7 +5,6 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.pronet.BadRequestException;
 import com.pronet.DataBaseException;
 import com.pronet.company.CompanyDetails;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -96,10 +95,8 @@ public class FeedsService {
 
     }
 
-    public JSONObject getCompanyFeedAt(String id) throws Exception
+    public List getCompanyFeedAt(String id) throws Exception
     {
-
-        JSONObject jsonObject = new JSONObject();
         try {
 
             String getUserFeeds = "SELECT * FROM feeds WHERE user_id ='"
@@ -108,9 +105,8 @@ public class FeedsService {
             List tmp = jdbcTemplate.queryForList(getUserFeeds);
 
             CompanyDetails getCompany = mapper.load(CompanyDetails.class, id);
-            jsonObject.put("user_name",getCompany.getUser_name());
-            jsonObject.put("feeds",tmp);
-            return jsonObject;
+
+            return tmp;
         }
         catch(EmptyResultDataAccessException e)
         {
