@@ -33,7 +33,7 @@ public class JobsController {
 
         }
 
-        model.setStatus("ACTIVE");
+        model.setJob_status("ACTIVE");
 
         jobsService.saveJobPostAt(model);
 

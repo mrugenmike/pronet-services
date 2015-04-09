@@ -13,7 +13,9 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 @Component("JobsService")
 public class JobsService {
@@ -51,7 +53,7 @@ public class JobsService {
         String start_date = model.getStart_date();
         String ex_date = model.getEx_date();
         String region = model.getJob_region();
-        String status = model.getStatus();
+        String job_status = model.getJob_status();
         String skills = model.getSkills();
 
         Table jobtable = dyDB.getTable("JobPosting");
@@ -65,7 +67,7 @@ public class JobsService {
                 .withString("jtitle", jtitle)
                 .withString("description", description)
                 .withString("skills", skills)
-                .withString("status", status)
+                .withString("job_status", job_status)
                 .withString("job_region", region)
                 .withString("start_date", start_date)
                 .withString("ex_date", ex_date);
@@ -91,7 +93,7 @@ public class JobsService {
         properties.put("companyName", item.get("user_name"));//how will i get company name???
         properties.put("companyLogoUrl", item.get("logo"));//from s3 get url
         properties.put("positionLocation", model.getJob_region());
-        properties.put("status", model.getStatus());
+        properties.put("job_status", model.getJob_status());
 
         //query: hgetall jobs:11 / 11 is jobID
         redisTemplate.opsForHash().putAll(keyForHash, properties);
@@ -175,27 +177,27 @@ public class JobsService {
 
     public JSONArray getAllCompanyJobsAt(String c_id) {
 
-        String table = "JobPosting";
-
-
-//        ScanRequest scanRequest = new ScanRequest()
-//                .withTableName(table).withFilterExpression("id = :7");
-//        final ScanResult scan = client.scan(scanRequest);
-//        List results = scan.getItems();
+        String tableName = "JobPosting";
         JSONArray results = new JSONArray();
 
-        Table table1 = dyDB.getTable(table);
+        Table table = dyDB.getTable(tableName);
         Map<String, Object> expressionAttributeValues = new HashMap<String, Object>();
         expressionAttributeValues.put(":ID", c_id);
-        ItemCollection<ScanOutcome> items = table1.scan(
+        ItemCollection<ScanOutcome> items = table.scan(
                 "id = :ID", //FilterExpression
-                "jtitle,description", //ProjectionExpression
+                "jid,description,jtitle,job_status", //ProjectionExpression
                 null,
                 expressionAttributeValues);
         Iterator<Item> iterator = items.iterator();
         while (iterator.hasNext()) {
-            System.out.println(iterator.next().toJSONPretty());
-            results.add(iterator.next().toJSONPretty());
+            //System.out.println(iterator.next().toJSONPretty());
+            JSONObject jsonObject = new JSONObject();
+            Item i = iterator.next();
+            jsonObject.put("jid", i.get("jid"));
+            jsonObject.put("jtitle", i.get("jtitle"));
+            jsonObject.put("description",i.get("description"));
+            jsonObject.put("job_status",i.get("job_status"));
+            results.add(jsonObject);
 
         }
         return results;

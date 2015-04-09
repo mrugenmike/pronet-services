@@ -16,7 +16,7 @@ public class JobsModel {
     String start_date;
     String ex_date;
     String job_region;
-    String status;
+    String job_status;
 
     public JobsModel(){}
 
@@ -82,13 +82,13 @@ public class JobsModel {
     public void setJob_region(String job_region) {
         this.job_region = job_region;
     }
-    @DynamoDBAttribute(attributeName="status")
-    public String getStatus() {
-        return status;
+    @DynamoDBAttribute(attributeName="job_status")
+    public String getJob_status() {
+        return job_status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setJob_status(String job_status) {
+        this.job_status = job_status;
     }
 
     @DynamoDBAttribute(attributeName="jid")
