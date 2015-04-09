@@ -14,7 +14,7 @@ PRIMARY KEY (ID)
 commit;
 select * from SignIn;
 
-desc SignIn;
+description SignIn;
 
 //create follow table
 drop table follow;

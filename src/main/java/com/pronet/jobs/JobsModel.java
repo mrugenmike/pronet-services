@@ -11,13 +11,14 @@ public class JobsModel {
     String id;
     String jid;
     String jtitle;
-    String desc;
+    String description;
     String skills;
     String start_date;
     String ex_date;
     String job_region;
     String status;
 
+    public JobsModel(){}
 
 
     @DynamoDBHashKey(attributeName="jtitle")
@@ -37,13 +38,13 @@ public class JobsModel {
         this.id = id;
     }
 
-    @DynamoDBAttribute(attributeName="desc")
-    public String getDesc() {
-        return desc;
+    @DynamoDBAttribute(attributeName="description")
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @DynamoDBAttribute(attributeName="skills")
@@ -55,7 +56,7 @@ public class JobsModel {
         this.skills = skills;
     }
 
-    @DynamoDBAttribute(attributeName="sdate")
+    @DynamoDBAttribute(attributeName="start_date")
     public String getStart_date() {
         return start_date;
     }
@@ -64,8 +65,7 @@ public class JobsModel {
         this.start_date = start_date;
     }
 
-    @DynamoDBAttribute(attributeName="exdate")
-
+    @DynamoDBAttribute(attributeName="ex_date")
     public String getEx_date() {
         return ex_date;
     }

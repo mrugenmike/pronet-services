@@ -49,7 +49,7 @@ public class JobsService {
     public void saveJobPostAt(JobsModel model) {
 
         String id = model.getId();
-        String desc = model.getDesc();
+        String description = model.getDescription();
         String jtitle = model.getJtitle();
         String start_date = model.getStart_date();
         String ex_date = model.getEx_date();
@@ -66,7 +66,7 @@ public class JobsService {
                 .withPrimaryKey("jid", jid)
                 .withString("id", id)
                 .withString("jtitle", jtitle)
-                .withString("desc", desc)
+                .withString("description", description)
                 .withString("skills", skills)
                 .withString("status", status)
                 .withString("job_region", region)
@@ -123,9 +123,10 @@ public class JobsService {
         Table company_table1 = dyDB.getTable("JobPosting");
         GetItemSpec spec1 = new GetItemSpec()
                 .withPrimaryKey("jid", jid)
-                .withProjectionExpression("id,desc,job_region,skills,jtitle")
+                .withProjectionExpression("id,description,job_region,skills,jtitle")
                 .withConsistentRead(true);
         Item item1 = company_table1.getItem(spec1);
+
 
 
         Table company_table = dyDB.getTable("CompanyProfile");
@@ -138,7 +139,7 @@ public class JobsService {
         jsonObject.put("jid", jid);
         jsonObject.put("id", item.get("id"));//company ID
         jsonObject.put("jtitle", item1.get("jtitle"));
-        jsonObject.put("desc", item1.get("desc"));
+        jsonObject.put("description", item1.get("description"));
         jsonObject.put("user_name", item.get("user_name"));
         jsonObject.put("logo", item.get("logo"));
         jsonObject.put("skills", item1.get("skills"));
