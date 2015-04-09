@@ -46,8 +46,8 @@ public class CompanyService {
 
             itemName.put("#overview", "overview");
             itemName.put("#url", "url");
-            itemValue.put(":overview,", companyDetails.getOverview());
-            itemValue.put(":url,", companyDetails.getUrl());
+            itemValue.put(":overview", companyDetails.getOverview());
+            itemValue.put(":url", companyDetails.getUrl());
             UpdateItemOutcome outcome =  companyProfileTable.updateItem(
                     "id",          // key attribute name
                     companyDetails.getId(),           // key attribute value
