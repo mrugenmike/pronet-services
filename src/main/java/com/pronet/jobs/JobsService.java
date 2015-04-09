@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 @Component("JobsService")
@@ -201,6 +202,18 @@ public class JobsService {
 
         }
         return results;
+    }
+
+    public List getAlAppsAt(String j_id) throws Exception{
+        try
+            {
+                String getApps = "SELECT * FROM job_apps WHERE job_id =" + j_id ;
+                List results = jdbcTemplate.queryForList(getApps);
+                return results;
+            }
+        catch (Exception e){
+            throw new BadRequestException(e.getMessage());
+        }
     }
 
 }

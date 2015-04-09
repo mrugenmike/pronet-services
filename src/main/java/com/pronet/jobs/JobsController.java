@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @Component("JobsController")
@@ -56,6 +57,13 @@ public class JobsController {
     public JSONArray getAllCompanyJobs(@PathVariable("c_id") String c_id) throws Exception{
 
         return jobsService.getAllCompanyJobsAt(c_id);
+    }
+
+    //returns all applications for a particular job
+    @RequestMapping(value = "/jobs/applist/{j_id}", method = RequestMethod.GET)
+    public List getAlApps(@PathVariable("j_id") String j_id) throws Exception{
+
+        return jobsService.getAlAppsAt(j_id);
     }
 
     }

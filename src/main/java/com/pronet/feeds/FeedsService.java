@@ -115,4 +115,16 @@ public class FeedsService {
         }
 
     }
+
+    public void deleteFeedAt(int id) throws Exception{
+        try
+        {
+            String delFeed = "DELETE FROM feeds where feed_id=" + id ;
+            jdbcTemplate.execute(delFeed);
+        }
+        catch (Exception e){
+            throw new BadRequestException(e.getMessage());
+        }
+
+    }
 }
