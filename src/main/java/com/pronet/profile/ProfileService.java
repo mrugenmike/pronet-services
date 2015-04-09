@@ -61,6 +61,9 @@ public class ProfileService {
                 }
                 else
                 {
+                    String sql = "SELECT count(1) FROM follow WHERE followeeID ='" + Id+"" + "'";
+                    Integer followerCount  = jdbcTemplate.queryForObject(sql, Integer.class);
+
                     CompanyDetails getCompany = mapper.load(CompanyDetails.class, u.getID());
                     json.put("role","C");
                     json.put("id" , getCompany.getId());
@@ -68,6 +71,7 @@ public class ProfileService {
                     json.put("logo" , getCompany.getLogo());
                     json.put("url" , getCompany.getUrl());
                     json.put("overview", getCompany.getOverview());
+                    json.put("followerCount", followerCount);
                 }
             }
             //return user details to front end
