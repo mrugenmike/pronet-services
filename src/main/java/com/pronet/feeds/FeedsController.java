@@ -45,23 +45,23 @@ public class FeedsController{
         return fService.getUserFeedAt(id);
     }
 
-    //Get User Feeds
-    @RequestMapping(value = "/company/{id}/feeds",method= RequestMethod.POST)
+    //POST Company Feed
+    @RequestMapping(value = "/company/feeds/{id}",method= RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public @ResponseBody
-    FeedsModel newCompanyFeed(@PathVariable(value="id") String id,@Valid @RequestBody FeedsModel feed, BindingResult result) throws Exception
+    void newCompanyFeed(@PathVariable(value="id") String id,@Valid @RequestBody FeedsModel feed, BindingResult result) throws Exception
     {
         if(result.hasErrors())
         {
             throw new BadRequestException("Request Body Is Missing Required Parameters");
 
         }
-        return fService.newCompanyFeedAt(id, feed);
+         fService.newCompanyFeedAt(id, feed);
     }
 
 
     //Get Company Feeds
-    @RequestMapping(value = "/company/{id}/feeds",method= RequestMethod.GET)
+    @RequestMapping(value = "/company/feeds/{id}",method= RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
     JSONObject getCompanyFeed(@PathVariable(value="id") String id) throws Exception

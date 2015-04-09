@@ -5,7 +5,6 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.pronet.BadRequestException;
 import com.pronet.DataBaseException;
 import com.pronet.company.CompanyDetails;
-import com.pronet.userdetails.UserDetails;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -73,18 +72,20 @@ public class FeedsService {
     }
 
     //POST new Company Feed
-    public FeedsModel newCompanyFeedAt(String id, FeedsModel feed) throws Exception {
+    public void newCompanyFeedAt(String id, FeedsModel feed) throws Exception {
         feed.setUserID(id);
         feed.setFeed_role("C");
 
         try{
 
             jdbcTemplate.execute(
-                    "INSERT INTO feeds(user_id,feed_title,feed_description,feed_role) values('"
+                    "INSERT INTO feeds(user_id,feed_title,feed_description,feed_role,user_name,user_img) values('"
                             + feed.getUserID() + "','"
-                            + feed.getFeed_title()+ "','"
+                            + feed.getFeed_title() + "','"
                             + feed.getFeed_description() + "','"
-                            + feed.getFeed_role()+"')");
+                            + feed.getFeed_role() + "','"
+                            + feed.getFeed_username() + "','"
+                            + feed.getFeed_userimage()+"')");
 
 
         }
@@ -92,8 +93,6 @@ public class FeedsService {
         {
             throw new DataBaseException(e.getMessage());
         }
-
-        return feed;
 
     }
 
@@ -103,7 +102,7 @@ public class FeedsService {
         JSONObject jsonObject = new JSONObject();
         try {
 
-            String getUserFeeds = "SELECT feed_title,feed_description FROM feeds WHERE user_id ='"
+            String getUserFeeds = "SELECT * FROM feeds WHERE user_id ='"
                     + id + "' and feed_role = 'C'" ;
 
             List tmp = jdbcTemplate.queryForList(getUserFeeds);

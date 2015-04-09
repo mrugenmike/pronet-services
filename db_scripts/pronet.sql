@@ -28,22 +28,10 @@ CREATE TABLE `feeds` (
   `feed_title` varchar(200) DEFAULT NULL,
   `feed_description` varchar(500) DEFAULT NULL,
   `feed_role` varchar(45) DEFAULT NULL,
+  `user_name` VARCHAR (200) DEFAULT NULL,
+  `user_img` VARCHAR(200) DEFAULT NULL
   PRIMARY KEY (`feed_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `feeds`
---
-
-LOCK TABLES `feeds` WRITE;
-/*!40000 ALTER TABLE `feeds` DISABLE KEYS */;
-INSERT INTO `feeds` VALUES (1,2,'this is a feed','feeds are here','C'),(2,1,'this is a user feed','this is user','U'),(3,1,'this is a user feed','this is user','U'),(4,1,'this is a user feed','second is user','U');
-/*!40000 ALTER TABLE `feeds` ENABLE KEYS */;
-
-ALTER table feeds add column user_name varchar(200);
-ALTER table feeds add column img varchar(200)
-UNLOCK TABLES;
 
 --
 -- Table structure for table `follow`
