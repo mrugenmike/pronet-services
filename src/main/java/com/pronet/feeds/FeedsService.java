@@ -57,7 +57,7 @@ public class FeedsService {
     {
         try {
 
-            String getUserFeeds = " SELECT feeds_id,user_id,feed_title,feed_description,feed_role,user_name,user_img from feeds where user_id in (select followeeID from follow where followerID = '"
+            String getUserFeeds = " SELECT feed_id,user_id,feed_title,feed_description,feed_role,user_name,user_img from feeds where user_id in (select followeeID from follow where followerID = '"
                     + id + "') or user_id = '" + id + "' ORDER BY feed_id DESC";
             List userFeeds = jdbcTemplate.queryForList(getUserFeeds);
             return userFeeds;
