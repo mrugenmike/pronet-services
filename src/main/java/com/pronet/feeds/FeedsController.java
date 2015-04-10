@@ -69,6 +69,7 @@ public class FeedsController{
     }
 
     @RequestMapping(value = "/feeds/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
     public void deleteFeed(@PathVariable("id") int id) throws Exception{
 
         fService.deleteFeedAt(id);

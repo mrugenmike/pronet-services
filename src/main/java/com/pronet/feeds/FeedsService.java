@@ -1,5 +1,6 @@
 package com.pronet.feeds;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.pronet.BadRequestException;
@@ -120,6 +121,7 @@ public class FeedsService {
     public void deleteFeedAt(int id) throws Exception{
         try
         {
+            System.out.println("ID :" + id);
             String delFeed = "DELETE FROM feeds where feed_id=" + id ;
             jdbcTemplate.execute(delFeed);
         }

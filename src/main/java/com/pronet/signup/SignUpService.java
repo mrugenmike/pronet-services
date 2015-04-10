@@ -59,8 +59,8 @@ public class SignUpService {
             if(model.getRole().equals("U"))
             {
                 dyn.withPrimaryKey("id", insertedID)
-                        .withString("img", " ")
-                        .withString("role",model.getUser_name());
+                        .withString("img", "/assets/images/sample.jpg")
+                        .withString("user_name",model.getUser_name());
 
             }
             else
@@ -68,12 +68,10 @@ public class SignUpService {
                 dyn.withPrimaryKey("id", insertedID)
                         .withString("user_name", model.getUser_name())
                         .withString("url", "http://")
-                        .withString("logo", "/assets/images/sample.jpg")
+                        .withString("logo", "/assets/images/companylogo.jpg")
                         .withString("overview", "overview")
                         .withString("role", model.getRole());
-
             }
-
             table.putItem(dyn);
 
             //TODO insert into redis

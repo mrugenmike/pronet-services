@@ -134,7 +134,7 @@ public class UserDetailsService {
 
     public JSONObject getUserDetailsAt(String id,String currentID){
         JSONObject json= new JSONObject();
-
+        System.out.println("here in user profile");
         try {
             UserDetails getUser = mapper.load(UserDetails.class, id);
             System.out.println(getUser);
@@ -218,9 +218,9 @@ public class UserDetailsService {
         System.out.println(followStatus);
 
         if(followStatus == 0)
-            json.put("follow","Follow");
+            json.put("follow","Connect");
         else
-            json.put("follow","UnFollow");
+            json.put("follow","Connected");
         return json;
     }
 
