@@ -15,6 +15,7 @@ import java.util.List;
 @Component("FeedsService")
 public class FeedsService {
 
+
     @Autowired
     DynamoDB dyDB;
 

@@ -16,6 +16,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,9 +38,11 @@ public class ProfileService {
         JSONObject json= new JSONObject();
         try {
 
+
             //fetch the login details for the ID
             String sql1 = "SELECT * FROM user_login WHERE ID =" + Id ;
             List<SignUp> user = jdbcTemplate.query(sql1, new SignUpRowMapper());
+
 
             for(SignUp u : user) {
                 //select user_details from dynamo
@@ -61,6 +64,15 @@ public class ProfileService {
                 }
                 else
                 {
+                    List feeds;
+                    try{
+
+                        String sql2 = "SELECT * FROM feeds WHERE user_id =" + Id ;
+                         feeds = jdbcTemplate.query(sql2, new SignUpRowMapper());
+                    }
+                    catch (Exception e){
+                         feeds = new ArrayList<>();
+                    }
                     String sql = "SELECT count(1) FROM follow WHERE followeeID ='" + Id+"" + "'";
                     Integer followerCount  = jdbcTemplate.queryForObject(sql, Integer.class);
 
@@ -72,6 +84,7 @@ public class ProfileService {
                     json.put("url" , getCompany.getUrl());
                     json.put("overview", getCompany.getOverview());
                     json.put("followerCount", followerCount);
+                    json.put("feeds",feeds);
                 }
             }
             //return user details to front end
