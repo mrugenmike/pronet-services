@@ -27,7 +27,8 @@ public class JobServiceTest {
         when(jobsService.getJobDetailsAt("111")).thenReturn(jobDetails);
 
         JSONObject jsonObject = jobsService.getJobDetailsAt("111");
-        assertThat(jsonObject).isNotEmpty();
+        assertThat(jsonObject).isNotNull();
 
     }
+
 }
