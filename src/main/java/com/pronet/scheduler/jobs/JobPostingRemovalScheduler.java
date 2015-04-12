@@ -63,7 +63,7 @@ Logger logger = LoggerFactory.getLogger(JobPostingRemovalScheduler.class);
             }
         }
         final Table jobpostings = db.getTable(table);
-        logger.info("Deleting the {} with following Ids: {}", table, itemsTobeMarkedasInactive);
+        logger.info("Updating the {} with following Ids: {}", table, itemsTobeMarkedasInactive);
         itemsTobeMarkedasInactive.forEach(itemId -> {
             final AttributeUpdate status = new AttributeUpdate("job_status");
             status.put("INACTIVE");
