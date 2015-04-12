@@ -110,7 +110,7 @@ public class JobsService {
         score = redisTemplate.opsForZSet().size(keyForSet);
         //populating tags for search
         //ZRANGE tags:jobs:new_position_for_SE 0 1 WITHSCORES
-        redisTemplate.opsForZSet().add(keyForSet, jid, score+1);
+        redisTemplate.opsForZSet().add(keyForSet, jid, score + 1);
 
         //redis for region tag
         String tag1 = model.getJob_region().toLowerCase().replace(" ","_");
@@ -129,7 +129,7 @@ public class JobsService {
         Table company_table1 = dyDB.getTable("JobPosting");
         GetItemSpec spec1 = new GetItemSpec()
                 .withPrimaryKey("jid", jid)
-                .withProjectionExpression("id,description,job_region,skills,jtitle")
+                .withProjectionExpression("id,description,job_region,skills,jtitle,job_status")
                 .withConsistentRead(true);
         Item item1 = company_table1.getItem(spec1);
 
