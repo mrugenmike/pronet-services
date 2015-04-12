@@ -35,6 +35,8 @@ public class CompanyService {
 
     private RedisTemplate<String, String> redisTemplate;
 
+    long score = 0;
+
 
     public JSONObject updateDetailsAt(CompanyDetails companyDetails){
 
@@ -75,6 +77,14 @@ public class CompanyService {
 
         //query: hgetall jobs:11 / 11 is jobID
         redisTemplate.opsForHash().putAll(keyForHash, properties);
+
+        String tag1 = companyDetails.getUser_name().toLowerCase().replace(" ", "_");
+
+        final String keyForSet = String.format("tags:company:%s", tag1);
+        score = redisTemplate.opsForZSet().size(keyForSet);
+        //populating tags for search
+        //ZRANGE tags:jobs:new_position_for_SE 0 1 WITHSCORES
+        redisTemplate.opsForZSet().add(keyForSet, companyDetails.getId(), score + 1);
 
         return jsonObject;
 

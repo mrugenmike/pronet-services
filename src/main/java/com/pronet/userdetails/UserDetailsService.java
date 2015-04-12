@@ -33,6 +33,8 @@ public class UserDetailsService {
 
     private RedisTemplate<String, String> redisTemplate;
 
+    long score = 0;
+
     @Autowired
     public UserDetailsService(RedisTemplate<String, String> redisTemplate) {
         this.redisTemplate = redisTemplate;
@@ -92,12 +94,6 @@ public class UserDetailsService {
         if(user.getUser_name()==null) {
 
             UserDetails getCompany = mapper.load(UserDetails.class, id);
-//            Table company_table = dyDB.getTable("UserDetails");
-//            GetItemSpec spec = new GetItemSpec()
-//                    .withPrimaryKey("id", user.getId())
-//                    .withProjectionExpression("user_name")
-//                    .withConsistentRead(true);
-//            Item item = company_table.getItem(spec);
 
             //redis HASH-MAP
             String tag = getCompany.getUser_name().toLowerCase();
@@ -129,6 +125,13 @@ public class UserDetailsService {
 
         //query: hgetall jobs:11 / 11 is jobID
         redisTemplate.opsForHash().putAll(keyForHash, properties);
+
+        String tag1 = user.getUser_name().toLowerCase().replace(" ","_");
+        final String keyForSet1 = String.format("tags:users:%s", tag1);
+        score = redisTemplate.opsForZSet().size(keyForSet1);
+        //populating tags for search
+        //ZRANGE tags:jobs:new_position_for_SE 0 0 WITHSCORES
+        redisTemplate.opsForZSet().add(keyForSet1, id, score + 1);
 
     }
 
