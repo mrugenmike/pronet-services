@@ -21,14 +21,14 @@ apply plugin: 'spring-boot'
 apply plugin: 'war'
 
 
-jar {
+/*jar {
     baseName = 'pronet-services'
     version =  '0.1.0'
-}
+}*/
 
 
 war {
-    baseName = 'pronet-services-war'
+    baseName = 'pronet'
     version =  '0.1.0'
 }
 
