@@ -18,10 +18,22 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
+apply plugin: 'war'
+
 
 jar {
     baseName = 'pronet-services'
     version =  '0.1.0'
+}
+
+
+war {
+    baseName = 'pronet-services-war'
+    version =  '0.1.0'
+}
+
+configurations {
+    providedRuntime
 }
 
 repositories {
@@ -52,6 +64,7 @@ dependencies {
     compile("com.googlecode.json-simple:json-simple:1.1")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-actuator")
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 
 }
 
