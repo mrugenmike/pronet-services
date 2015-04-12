@@ -46,6 +46,7 @@ public class JobsService {
     }
 
 
+    static int score = 0;
     public void saveJobPostAt(JobsModel model) {
 
         String id = model.getId();
@@ -100,19 +101,21 @@ public class JobsService {
         //query: hgetall jobs:11 / 11 is jobID
         redisTemplate.opsForHash().putAll(keyForHash, properties);
 
-        String tag = model.getJtitle().replace(" ", "_");
+
+
+        String tag = model.getJtitle().toLowerCase().replace(" ", "_");
 
         final String keyForSet = String.format("tags:jobs:%s", tag);
         //populating tags for search
         //ZRANGE tags:jobs:new_position_for_SE 0 1 WITHSCORES
-        redisTemplate.opsForZSet().add(keyForSet, jid, 0);
+        redisTemplate.opsForZSet().add(keyForSet, jid, score+1);
 
         //redis for region tag
-        String tag1 = model.getJob_region();
+        String tag1 = model.getJob_region().toLowerCase().replace(" ","_");
         final String keyForSet1 = String.format("tags:jobs:%s", tag1);
         //populating tags for search
         //ZRANGE tags:jobs:new_position_for_SE 0 0 WITHSCORES
-        redisTemplate.opsForZSet().add(keyForSet1, jid, 0);
+        redisTemplate.opsForZSet().add(keyForSet1, jid, score+1);
 
     }
 
