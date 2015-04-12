@@ -149,6 +149,7 @@ public class JobsService {
         jsonObject.put("logo", item.get("logo"));
         jsonObject.put("skills", item1.get("skills"));
         jsonObject.put("job_region", item1.get("job_region"));
+        jsonObject.put("job_status",item1.get("job_status"));
 
         return jsonObject;
 
