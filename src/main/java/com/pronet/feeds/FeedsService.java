@@ -1,10 +1,9 @@
 package com.pronet.feeds;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.pronet.BadRequestException;
-import com.pronet.DataBaseException;
+import com.pronet.exceptions.BadRequestException;
+import com.pronet.exceptions.DataBaseException;
 import com.pronet.company.CompanyDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;

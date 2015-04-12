@@ -5,7 +5,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.model.*;
-import com.pronet.BadRequestException;
+import com.pronet.exceptions.BadRequestException;
 import com.pronet.search.users.UserFields;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -5,7 +5,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
-import com.pronet.BadRequestException;
+import com.pronet.exceptions.BadRequestException;
 import com.pronet.company.CompanyDetails;
 import com.pronet.signup.SignUp;
 import com.pronet.signup.SignUpRowMapper;

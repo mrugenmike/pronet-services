@@ -4,7 +4,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.*;
 import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
-import com.pronet.BadRequestException;
+import com.pronet.exceptions.BadRequestException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +96,7 @@ public class JobsService {
         properties.put("positionLocation", model.getJob_region());
         properties.put("job_status", model.getJob_status());
 
+
         //query: hgetall jobs:11 / 11 is jobID
         redisTemplate.opsForHash().putAll(keyForHash, properties);
 
@@ -110,7 +111,7 @@ public class JobsService {
         String tag1 = model.getJob_region();
         final String keyForSet1 = String.format("tags:jobs:%s", tag1);
         //populating tags for search
-        //ZRANGE tags:jobs:new_position_for_SE 0 1 WITHSCORES
+        //ZRANGE tags:jobs:new_position_for_SE 0 0 WITHSCORES
         redisTemplate.opsForZSet().add(keyForSet1, jid, 0);
 
     }

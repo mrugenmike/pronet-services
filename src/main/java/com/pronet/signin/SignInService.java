@@ -2,7 +2,7 @@ package com.pronet.signin;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.pronet.BadRequestException;
+import com.pronet.exceptions.BadRequestException;
 import com.pronet.signup.SignUp;
 import com.pronet.signup.SignUpRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;

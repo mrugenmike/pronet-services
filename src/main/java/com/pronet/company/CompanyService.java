@@ -4,7 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
-import com.pronet.BadRequestException;
+import com.pronet.exceptions.BadRequestException;
 import com.pronet.search.company.CompanyFields;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
