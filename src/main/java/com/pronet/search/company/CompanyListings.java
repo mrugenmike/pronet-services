@@ -8,8 +8,13 @@ public class CompanyListings {
         return companyListings;
     }
 
-    List<CompanyListing> companyListings = new ArrayList<CompanyListing>();
     int totalEntries;
+
+    List<CompanyListing> companyListings = new ArrayList<CompanyListing>();
+
+    public int getTotalEntries() {
+        return totalEntries;
+    }
     public void add(List<CompanyListing> listings) {
         if(listings!=null){
             companyListings.addAll(listings);

@@ -5,6 +5,22 @@ import java.util.Map;
 import static com.pronet.search.company.CompanyFields.*;
 
 public class CompanyListing {
+    public String getId() {
+        return id;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     String id;
     String logo;
     String companyName;
@@ -18,10 +34,10 @@ public class CompanyListing {
     }
 
     public static CompanyListing instance(Map<Object,Object> company){
-        final String id = company.get(COMPANYID).toString();
-        final String companyLogo = company.get(COMAPANYLOGO).toString();
-        final String companyName = company.get(COMPANYNAME).toString();
-        final String description = company.get(COMPANYDESC).toString();
+        final String id = company.get(COMPANYID.toString()).toString();
+        final String companyLogo = company.get(COMAPANYLOGO.toString()).toString();
+        final String companyName = company.get(COMPANYNAME.toString()).toString();
+        final String description = company.get(COMPANYDESC.toString()).toString();
         return new CompanyListing(id,companyLogo,companyName,description);
     }
 
