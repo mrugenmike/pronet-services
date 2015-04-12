@@ -1,6 +1,7 @@
 package com.pronet.scheduler.jobs;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.document.AttributeUpdate;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
 import com.amazonaws.services.dynamodbv2.document.Table;
@@ -47,14 +48,14 @@ Logger logger = LoggerFactory.getLogger(JobPostingRemovalScheduler.class);
                 .withTableName(table);
         final ScanResult scan = client.scan(scanRequest);
         final Date currentDate = Calendar.getInstance().getTime();
-        final List<Map<String, AttributeValue>> itemsTobeDeleted = new ArrayList<Map<String, AttributeValue>>();
+        final List<Map<String, AttributeValue>> itemsTobeMarkedasInactive = new ArrayList<Map<String, AttributeValue>>();
         for (Map<String, AttributeValue> item : scan.getItems()){
             final AttributeValue ex_date = item.get("ex_date");
             final Date parse;
             try {
                 parse = new SimpleDateFormat("YYYY-MM-DD").parse(ex_date.getS());
                 if(parse.before(currentDate)){
-                    itemsTobeDeleted.add(item);
+                    itemsTobeMarkedasInactive.add(item);
                 }
 
             } catch (ParseException e) {
@@ -62,17 +63,19 @@ Logger logger = LoggerFactory.getLogger(JobPostingRemovalScheduler.class);
             }
         }
         final Table jobpostings = db.getTable(table);
-        logger.info("Deleting the {} with following Ids: {}", table, itemsTobeDeleted);
-        itemsTobeDeleted.forEach(itemId -> {
-            jobpostings.deleteItem(new PrimaryKey("jid", itemId.get("jid").getS()));
+        logger.info("Deleting the {} with following Ids: {}", table, itemsTobeMarkedasInactive);
+        itemsTobeMarkedasInactive.forEach(itemId -> {
+            final AttributeUpdate status = new AttributeUpdate("job_status");
+            status.put("INACTIVE");
+            jobpostings.updateItem(new PrimaryKey("jid", itemId.get("jid").getS()), status);
         });
 
-        itemsTobeDeleted.forEach(item -> {
+        itemsTobeMarkedasInactive.forEach(item -> {
             final String jobTitle = Arrays.asList(item.get("jtitle").getS().split(" ")).stream().map(t -> t.toLowerCase()).collect(Collectors.joining("_"));
-            final String key = JobSearchService.jobTags +":"+jobTitle;
+            final String key = JobSearchService.jobTags + ":" + jobTitle;
             final String jid = item.get("jid").getS();
             redisClient.opsForZSet().remove(key, jid);
-            redisClient.opsForHash().getOperations().delete(JobSearchService.jobsSchema+jid);
+            redisClient.opsForHash().getOperations().delete(JobSearchService.jobsSchema + jid);
         });
     }
 }
