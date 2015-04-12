@@ -73,6 +73,7 @@ public class CompanyService {
         properties.put(CompanyFields.COMPANYID.toString(), c_id_redis);
         properties.put(CompanyFields.COMPANYNAME.toString(),tag);
         properties.put(CompanyFields.COMAPANYLOGO.toString(),companyDetails.getLogo());
+        properties.put(CompanyFields.COMPANYDESC.toString(),companyDetails.getOverview());
 
 
         //query: hgetall jobs:11 / 11 is jobID
