@@ -28,4 +28,5 @@ public class FeedsServiceTest {
         //then
         assertThat(feedList).isNotNull();
     }
+
 }
