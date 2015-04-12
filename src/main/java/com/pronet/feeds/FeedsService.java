@@ -4,7 +4,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.pronet.exceptions.BadRequestException;
 import com.pronet.exceptions.DataBaseException;
-import com.pronet.company.CompanyDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -105,7 +104,6 @@ public class FeedsService {
 
             List tmp = jdbcTemplate.queryForList(getUserFeeds);
 
-            CompanyDetails getCompany = mapper.load(CompanyDetails.class, id);
 
             return tmp;
         }
