@@ -1,6 +1,7 @@
 package com.pronet.search.company;
 
 import com.pronet.search.users.UserListing;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ public class CompanySearchService {
     private final StringRedisTemplate redisTemplate;
     private String tags="tags:company:".intern();
     private String companyHashSchemaKey ="company:".intern();
+    @Autowired
     CompanySearchService(StringRedisTemplate redisTemplate){
         this.redisTemplate = redisTemplate;
     }
