@@ -35,7 +35,8 @@ public class UserSearchService {
                 final Set<String> userIdsMatchingTheSearch = redisTemplate.opsForZSet().range(tag, skip, skip + limit);
                 if(userIdsMatchingTheSearch!=null && !userIdsMatchingTheSearch.isEmpty()){
                     List<Map<Object, Object>> foundUserEntries = userIdsMatchingTheSearch.stream().map(userId -> userHashSchemaKey + userId).map(userSearchKey -> redisTemplate.opsForHash().entries(userSearchKey)).collect(Collectors.toList());
-                    userListings.add(foundUserEntries.stream().map(user -> UserListing.instance(user)).collect(Collectors.toList()));
+                    final List<UserListing> listings = foundUserEntries.stream().filter(entry -> !entry.isEmpty()).map(user -> UserListing.instance(user)).collect(Collectors.toList());
+                    userListings.add(listings);
                     userListings.addToTotalTerms(totalTerms);
                 }
             }
