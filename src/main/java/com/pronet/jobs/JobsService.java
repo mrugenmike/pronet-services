@@ -90,12 +90,14 @@ public class JobsService {
         final String keyForHash = String.format("jobs:%s", model.getJid());
         final Map<String, Object> properties = new HashMap<String, Object>();
 
+        properties.put("jobId",jid);
         properties.put("companyId", model.getId());
         properties.put("positionTitle", model.getJtitle());
         properties.put("companyName", item.get("user_name"));//how will i get company name???
         properties.put("companyLogoUrl", item.get("logo"));//from s3 get url
         properties.put("positionLocation", model.getJob_region());
         properties.put("job_status", model.getJob_status());
+        properties.put("description",model.getDescription());
 
         //query: hgetall jobs:11 / 11 is jobID
         redisTemplate.opsForHash().putAll(keyForHash, properties);

@@ -47,10 +47,10 @@ public class JobListing implements Serializable{
     public static JobListing instance(Map<Object, Object> job) {
         String position_title = (String) job.get("positionTitle");
         String company_name= (String) job.get("companyName");
-        String company_logo= (String) job.get("companyLogo");
+        String company_logo= (String) job.get("companyLogoUrl");
         String location= (String) job.get("positionLocation");
-        String id= (String) job.get("id");
+        String jobId= (String) job.get("jobId");
         String description= (String) job.get("description");
-        return new JobListing(id,position_title,company_name,company_logo,location,description);
+        return new JobListing(jobId,position_title,company_name,company_logo,location,description);
     }
 }
