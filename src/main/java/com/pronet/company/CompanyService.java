@@ -115,7 +115,7 @@ public class CompanyService {
             json.put("id", getCompany.getId());
             json.put("name", getCompany.getUser_name());
             if (getCompany.getLogo() == null) {
-                json.put("Logo", "/assets/images/companylogo.jpg");
+                json.put("Logo", "http://pronetnode.elasticbeanstalk.com/assets/images/companylogo.jpg");
             } else {
                 json.put("Logo", getCompany.getLogo());
             }
