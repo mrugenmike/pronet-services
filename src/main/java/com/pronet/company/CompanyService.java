@@ -41,15 +41,31 @@ public class CompanyService {
     public JSONObject updateDetailsAt(CompanyDetails companyDetails){
 
         JSONObject jsonObject = new JSONObject();
+        String puturl;
+        String putoverview;
+
+        CompanyDetails getCompany = mapper.load(CompanyDetails.class,companyDetails.getId());
 
         Table companyProfileTable = dyDB.getTable("CompanyProfile");
         Map<String, String> itemName = new HashMap<String, String>();
         Map<String, Object> itemValue = new HashMap<String, Object>();
 
+        if(companyDetails.getUrl()==null)
+            puturl = getCompany.getUrl();
+        else
+            puturl = companyDetails.getUrl();
+
+        if(companyDetails.getOverview()==null)
+            putoverview = getCompany.getOverview();
+        else
+            putoverview = companyDetails.getOverview();
+
+
+
             itemName.put("#overview", "overview");
             itemName.put("#url", "url");
-            itemValue.put(":overview", companyDetails.getOverview());
-            itemValue.put(":url", companyDetails.getUrl());
+            itemValue.put(":overview", putoverview);
+            itemValue.put(":url", puturl);
             UpdateItemOutcome outcome =  companyProfileTable.updateItem(
                     "id",          // key attribute name
                     companyDetails.getId(),           // key attribute value
