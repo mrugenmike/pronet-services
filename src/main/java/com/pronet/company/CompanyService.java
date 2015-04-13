@@ -81,14 +81,14 @@ public class CompanyService {
 
         //inserting company details into redis for search
         String c_id_redis = companyDetails.getId();
-        String tag = companyDetails.getUser_name().toLowerCase().replace(" ","_");
-        final String keyForHash = String.format( "company:%s", c_id_redis );
+        String tag = companyDetails.getUser_name().toLowerCase().replace(" ", "_");
+        final String keyForHash = String.format("company:%s", c_id_redis);
         final Map< String, Object > properties = new HashMap< String, Object >();
 
-
+        String tmpLogo = "http://pronetnode.elasticbeanstalk.com/assets/images/companylogo.jpg";
         properties.put(CompanyFields.COMPANYID.toString(), c_id_redis);
         properties.put(CompanyFields.COMPANYNAME.toString(),tag);
-        properties.put(CompanyFields.COMAPANYLOGO.toString(),companyDetails.getLogo());
+        properties.put(CompanyFields.COMAPANYLOGO.toString(),tmpLogo);
         properties.put(CompanyFields.COMPANYDESC.toString(),companyDetails.getOverview());
 
 
