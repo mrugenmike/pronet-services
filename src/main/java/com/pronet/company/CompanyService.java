@@ -81,8 +81,8 @@ public class CompanyService {
 
         //inserting company details into redis for search
         String c_id_redis = companyDetails.getId();
-        String tag = companyDetails.getUser_name().replace(" ","_");
-        final String keyForHash = String.format( "company:%s", tag );
+        String tag = companyDetails.getUser_name().toLowerCase().replace(" ","_");
+        final String keyForHash = String.format( "company:%s", c_id_redis );
         final Map< String, Object > properties = new HashMap< String, Object >();
 
 
@@ -95,9 +95,7 @@ public class CompanyService {
         //query: hgetall jobs:11 / 11 is jobID
         redisTemplate.opsForHash().putAll(keyForHash, properties);
 
-        String tag1 = companyDetails.getUser_name().toLowerCase().replace(" ", "_");
-
-        final String keyForSet = String.format("tags:company:%s", tag1);
+        final String keyForSet = String.format("tags:company:%s", tag);
         score = redisTemplate.opsForZSet().size(keyForSet);
         //populating tags for search
         //ZRANGE tags:jobs:new_position_for_SE 0 1 WITHSCORES

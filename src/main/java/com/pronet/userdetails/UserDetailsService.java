@@ -97,15 +97,15 @@ public class UserDetailsService {
 
             //redis HASH-MAP
             String tag = getCompany.getUser_name().toLowerCase();
-            insertTag = tag.replace(" ", "_");
+            insertTag = tag.toLowerCase().replace(" ", "_");
         }
         else
         {
-            insertTag = user.getUser_name().replace(" ","_");
+            insertTag = user.getUser_name().toLowerCase().replace(" ","_");
         }
 
         String default_image = "/assets/images/sample.jpg";
-        final String keyForHash = String.format( "users:%s", insertTag );
+        final String keyForHash = String.format( "users:%s", id );
         final Map< String, Object > properties = new HashMap< String, Object >();
 
 
@@ -123,11 +123,11 @@ public class UserDetailsService {
             properties.put(UserFields.REGION.toString(),"Not Available");
 
 
+
         //query: hgetall jobs:11 / 11 is jobID
         redisTemplate.opsForHash().putAll(keyForHash, properties);
 
-        String tag1 = user.getUser_name().toLowerCase().replace(" ","_");
-        final String keyForSet1 = String.format("tags:users:%s", tag1);
+        final String keyForSet1 = String.format("tags:users:%s", insertTag);
         score = redisTemplate.opsForZSet().size(keyForSet1);
         //populating tags for search
         //ZRANGE tags:jobs:new_position_for_SE 0 0 WITHSCORES
