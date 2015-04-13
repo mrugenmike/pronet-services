@@ -112,18 +112,11 @@ public class UserDetailsService {
 
         properties.put(UserFields.USERID.toString(), id);
         properties.put(UserFields.NAME.toString(),getUser.getUser_name());
-        if(user.getImg()!=null) {
-            properties.put(UserFields.USERLOGO.toString(), user.getImg());
-        }
-        else{
-            properties.put(UserFields.USERLOGO.toString(), default_image);
-        }
+        properties.put(UserFields.USERLOGO.toString(), getUser.getImg());
         if(user.getRegion()!=null)
             properties.put(UserFields.REGION.toString(),user.getRegion());
         else
             properties.put(UserFields.REGION.toString(),"Not Available");
-
-
 
         //query: hgetall jobs:11 / 11 is jobID
         redisTemplate.opsForHash().putAll(keyForHash, properties);
