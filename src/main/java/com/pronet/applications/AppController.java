@@ -26,24 +26,18 @@ public class AppController {
     @ResponseStatus(HttpStatus.OK)
     public void jobApp(@RequestBody AppModel model,BindingResult result) throws Exception {
 
+        System.out.println(model.getApp_date() + " " + model.getCompany_id());
         if(result.hasErrors())
         {
             throw new BadRequestException("Request Body Is Missing Required Parameters");
-
         }
-
          appService.jobAppAt(model);
-
-
     }
     //get all job applications for company
     @RequestMapping(value = "/jobs/apps/{c_id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public JSONObject getAllJobs(@PathVariable("c_id") String c_id) throws Exception {
-
         return appService.getAllJobsAt(c_id);
-
-
     }
 
     //get all job applications for users

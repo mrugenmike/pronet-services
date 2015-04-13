@@ -5,14 +5,18 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.pronet.exceptions.BadRequestException;
+import com.pronet.feeds.FeedsModel;
 import com.pronet.search.company.CompanyFields;
+import com.pronet.signup.SignUpRowMapper;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component("CompanyService")
@@ -115,23 +119,23 @@ public class CompanyService {
             CompanyDetails getCompany = mapper.load(CompanyDetails.class, id);
             json.put("page", "C");
             json.put("id", getCompany.getId());
-            json.put("name", getCompany.getUser_name());
+            json.put("company_name", getCompany.getUser_name());
             if (getCompany.getLogo() == null) {
-                json.put("Logo", "/assets/images/companylogo.jpg");
+                json.put("logo", "/assets/images/companylogo.jpg");
             } else {
-                json.put("Logo", getCompany.getLogo());
+                json.put("logo", getCompany.getLogo());
             }
 
             if (getCompany.getUrl() == null) {
-                json.put("URL", "Company URL");
+                json.put("url", "Company URL");
             } else {
-                json.put("URL", getCompany.getUrl());
+                json.put("url", getCompany.getUrl());
             }
 
             if (getCompany.getOverview() == null) {
-                json.put("Overview", "Give your company overview");
+                json.put("overview", "Give your company overview");
             } else {
-                json.put("Overview", getCompany.getOverview());
+                json.put("overview", getCompany.getOverview());
             }
             System.out.println(json);
         }
@@ -154,6 +158,19 @@ public class CompanyService {
             json.put("follow","Follow");
         else
             json.put("follow","UnFollow");
+
+
+        List<FeedsModel> feeds;
+        try{
+
+            String sql2 = "SELECT * FROM feeds WHERE user_id =" + id ;
+            feeds = jdbcTemplate.query(sql2, new SignUpRowMapper());
+        }
+        catch (Exception e){
+            feeds = new ArrayList<FeedsModel>();
+        }
+        json.put("feeds",feeds);
+
         return json;
 
     }

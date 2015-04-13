@@ -121,8 +121,9 @@ public class JobsService {
 
     }
 
-    public JSONObject getJobDetailsAt(String jid) {
+    public JSONObject getJobDetailsAt(String jid, String uid) {
 
+        System.out.println("In get job details");
 
         JSONObject jsonObject = new JSONObject();
 
@@ -151,6 +152,15 @@ public class JobsService {
         jsonObject.put("job_region", item1.get("job_region"));
         jsonObject.put("job_status",item1.get("job_status"));
 
+        String sql = "SELECT count(1) FROM job_apps WHERE job_id ='" + jid + "' and user_id ='" +  uid + "'";
+        Integer apply = jdbcTemplate.queryForObject(sql, Integer.class);
+
+        if(apply == 0)
+            jsonObject.put("apply","Apply");
+        else
+            jsonObject.put("apply","Applied");
+
+        System.out.println(jsonObject);
         return jsonObject;
 
     }

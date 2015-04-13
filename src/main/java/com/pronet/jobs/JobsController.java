@@ -41,10 +41,10 @@ public class JobsController {
 
     }
 
-    @RequestMapping(value = "/jobs/{jid}", method = RequestMethod.GET)
-    public JSONObject getJobDetails(@PathVariable("jid") String jid) {
-
-        return jobsService.getJobDetailsAt(jid);
+    @RequestMapping(value = "/jobs/{jid}/{userID}", method = RequestMethod.GET)
+    public JSONObject getJobDetails(@PathVariable("jid") String jid , @PathVariable("userID") String uid) {
+        System.out.println("In jobs controller");
+        return jobsService.getJobDetailsAt(jid,uid);
     }
 
     @RequestMapping(value = "/jobs/{jid}", method = RequestMethod.DELETE)
