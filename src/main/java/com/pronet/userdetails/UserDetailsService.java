@@ -104,13 +104,14 @@ public class UserDetailsService {
             insertTag = user.getUser_name().toLowerCase().replace(" ","_");
         }
 
+        UserDetails getUser = mapper.load(UserDetails.class, id);
         String default_image = "http://pronetnode.elasticbeanstalk.com/assets/images/sample.jpg";
         final String keyForHash = String.format( "users:%s", id );
         final Map< String, Object > properties = new HashMap< String, Object >();
 
 
         properties.put(UserFields.USERID.toString(), id);
-        properties.put(UserFields.NAME.toString(),user.getUser_name());
+        properties.put(UserFields.NAME.toString(),getUser.getUser_name());
         if(user.getImg()!=null) {
             properties.put(UserFields.USERLOGO.toString(), user.getImg());
         }
