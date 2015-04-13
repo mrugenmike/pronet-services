@@ -110,7 +110,7 @@ public class UserDetailsService {
 
 
         properties.put(UserFields.USERID.toString(), id);
-        properties.put(UserFields.NAME.toString(),insertTag);
+        properties.put(UserFields.NAME.toString(),user.getUser_name());
         if(user.getImg()!=null) {
             properties.put(UserFields.USERLOGO.toString(), user.getImg());
         }
