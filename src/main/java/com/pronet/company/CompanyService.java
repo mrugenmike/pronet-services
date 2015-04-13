@@ -89,10 +89,9 @@ public class CompanyService {
         final String keyForHash = String.format("company:%s", c_id_redis);
         final Map< String, Object > properties = new HashMap< String, Object >();
 
-        String tmpLogo = "http://pronetnode.elasticbeanstalk.com/assets/images/companylogo.jpg";
         properties.put(CompanyFields.COMPANYID.toString(), c_id_redis);
         properties.put(CompanyFields.COMPANYNAME.toString(),tag);
-        properties.put(CompanyFields.COMAPANYLOGO.toString(),tmpLogo);
+        properties.put(CompanyFields.COMAPANYLOGO.toString(),getCompany.getLogo());
         properties.put(CompanyFields.COMPANYDESC.toString(),companyDetails.getOverview());
 
 
