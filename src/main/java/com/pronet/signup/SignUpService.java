@@ -74,7 +74,6 @@ public class SignUpService {
             }
             table.putItem(dyn);
 
-            //TODO insert into redis
         }
     }
 }

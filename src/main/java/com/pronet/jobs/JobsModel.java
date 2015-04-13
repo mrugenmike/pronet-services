@@ -21,7 +21,7 @@ public class JobsModel {
     public JobsModel(){}
 
 
-    @DynamoDBHashKey(attributeName="jtitle")
+    @DynamoDBAttribute(attributeName="jtitle")
     public String getJtitle() {
         return jtitle;
     }
@@ -91,7 +91,7 @@ public class JobsModel {
         this.job_status = job_status;
     }
 
-    @DynamoDBAttribute(attributeName="jid")
+    @DynamoDBHashKey(attributeName="jid")
     public String getJid() {
         return jid;
     }
