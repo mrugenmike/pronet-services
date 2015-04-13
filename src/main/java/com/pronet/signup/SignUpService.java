@@ -68,7 +68,7 @@ public class SignUpService {
                 dyn.withPrimaryKey("id", insertedID)
                         .withString("user_name", model.getUser_name())
                         .withString("url", "http://")
-                        .withString("logo", "/assets/images/companylogo.jpg")
+                        .withString("logo", "http://pronetnode.elasticbeanstalk.com//assets/images/companylogo.jpg")
                         .withString("overview", "overview")
                         .withString("role", model.getRole());
             }
