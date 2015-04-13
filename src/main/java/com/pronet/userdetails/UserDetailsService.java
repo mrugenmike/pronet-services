@@ -104,7 +104,7 @@ public class UserDetailsService {
             insertTag = user.getUser_name().toLowerCase().replace(" ","_");
         }
 
-        String default_image = "/assets/images/sample.jpg";
+        String default_image = "http://pronetnode.elasticbeanstalk.com/assets/images/sample.jpg";
         final String keyForHash = String.format( "users:%s", id );
         final Map< String, Object > properties = new HashMap< String, Object >();
 
