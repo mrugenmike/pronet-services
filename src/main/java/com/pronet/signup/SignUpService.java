@@ -59,7 +59,7 @@ public class SignUpService {
             if(model.getRole().equals("U"))
             {
                 dyn.withPrimaryKey("id", insertedID)
-                        .withString("img", "/assets/images/sample.jpg")
+                        .withString("img", "http://pronetnode.elasticbeanstalk.com/assets/images/sample.jpg")
                         .withString("user_name",model.getUser_name());
 
             }
@@ -68,7 +68,7 @@ public class SignUpService {
                 dyn.withPrimaryKey("id", insertedID)
                         .withString("user_name", model.getUser_name())
                         .withString("url", "http://")
-                        .withString("logo", "/assets/images/companylogo.jpg")
+                        .withString("logo", "http://pronetnode.elasticbeanstalk.com/assets/images/companylogo.jpg")
                         .withString("overview", "overview")
                         .withString("role", model.getRole());
             }

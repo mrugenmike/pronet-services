@@ -6,7 +6,6 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.pronet.scheduler.jobs.JobPostingRemovalScheduler;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -102,6 +101,7 @@ public class PronetConfig {
     @Bean
     JdbcTemplate JdbcDB() {
         final BasicDataSource basicDataSource = new BasicDataSource();
+        basicDataSource.setDriverClassName(rdsDriver);
         basicDataSource.setUrl(rdsDatasource);
         basicDataSource.setUsername(rdsUserName);
         basicDataSource.setPassword(rdsPassword);
