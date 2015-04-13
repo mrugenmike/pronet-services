@@ -188,9 +188,9 @@ public class UserDetailsService {
             }
 
             if (getUser.getCertifications() == null) {
-                json.put("Cerifications", "Certifications");
+                json.put("certifications", "Certifications");
             } else {
-                json.put("Certifications", getUser.getCertifications());
+                json.put("certifications", getUser.getCertifications());
             }
 
             if (getUser.getSkills() == null) {
@@ -224,6 +224,8 @@ public class UserDetailsService {
             json.put("follow","Connect");
         else
             json.put("follow","Connected");
+
+        System.out.println(json);
         return json;
     }
 
