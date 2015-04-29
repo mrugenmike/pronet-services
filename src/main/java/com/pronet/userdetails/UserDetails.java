@@ -18,7 +18,6 @@ public class UserDetails {
     private String educationDetails;
     private String skills;
     private String certifications;
-    private String lastseen;
 
     @DynamoDBHashKey(attributeName="id")
     public String getId() {
@@ -118,21 +117,10 @@ public class UserDetails {
         this.certifications = certifications;
     }
 
-    @DynamoDBAttribute(attributeName="lastseen")
-    public String getLastseen() {
-        return lastseen;
-    }
-
-    public void setLastseen(String lastseen) {
-        this.lastseen = lastseen;
-    }
-
-
     public String toString(){
         return "id : " + id + " Name:" + user_name + " URL:"+ img + " role:"+ role +
                 " Region:" + region + " Education: " + education + " workex: " + workex +
                 " Summary:"+summary + " Ed Details:"+educationDetails + " Skills:"+skills +
-                " cerification:"+certifications + " lastseen:"+lastseen;
-
+                " certification:"+certifications;
     }
 }

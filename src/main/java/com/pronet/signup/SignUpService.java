@@ -6,8 +6,10 @@ import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.pronet.exceptions.BadRequestException;
+import com.pronet.userdetails.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +28,8 @@ public class SignUpService {
     @Autowired
     DynamoDBMapper mapper;
 
+    @Autowired
+    MongoTemplate mongotemplate;
 
     public void signUpUser(SignUp model) throws EmptyResultDataAccessException {
 
@@ -73,6 +77,14 @@ public class SignUpService {
                         .withString("role", model.getRole());
             }
             table.putItem(dyn);
+
+            //insert user into mongodb
+            UserDetails user = new UserDetails();
+            user.setId(insertedID);
+            user.setUser_name(model.getUser_name());
+            user.setImg("/assets/images/sample.jpg");
+            //moderatorData.put(mod.getId(), mod);
+            mongotemplate.save(user,"UserDetails");
 
         }
     }

@@ -11,7 +11,7 @@ import java.util.List;
 public class FollowService {
 
     @Autowired
-    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    JdbcTemplate jdbcTemplate;
 
     @Autowired
     public FollowService(JdbcTemplate jdbcTemplate){
@@ -36,6 +36,19 @@ public class FollowService {
                         + follow.getFollowerName() + "','"
                         + follow.getFollowerRole() + "')");
 
+        if(follow.getFollowerRole() == "U")
+        {
+            jdbcTemplate.execute(
+                    "INSERT INTO connections(user_id,item_id) values("
+                            + id + ","
+                            + follow.getFollowerId() + ")");
+
+            jdbcTemplate.execute(
+                    "INSERT INTO connections(user_id,item_id) values('"
+                            +  follow.getFollowerId() + "','"
+                            +  id + "')");
+        }
+
     }
 
     public void UnfollowAt(String id, Follow follow){
@@ -46,8 +59,17 @@ public class FollowService {
         if(foll == 0)
             return;
         jdbcTemplate.execute(" DELETE FROM follow where followerID = '" + id + "' and followeeID = '" + follow.getFollowerId() + "'");
-        System.out.println("Deleted successfully!!");
 
+        if(follow.getFollowerRole() == "U") {
+            jdbcTemplate.execute(
+                    " DELETE FROM connections where user_id = " + id + " and item_id =  "+ follow.getFollowerId() + "");
+
+            jdbcTemplate.execute(
+                    " DELETE FROM connections where user_id = " +  follow.getFollowerId() + " and item_id =  "+ id + "");
+
+        }
+
+        System.out.println("Deleted successfully!!");
     }
 
     public List followingAt(String id){
@@ -59,6 +81,5 @@ public class FollowService {
         List followers = jdbcTemplate.queryForList(sql1);
         System.out.println(followers);
         return followers;
-
     }
 }

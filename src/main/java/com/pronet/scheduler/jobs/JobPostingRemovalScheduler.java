@@ -40,7 +40,7 @@ Logger logger = LoggerFactory.getLogger(JobPostingRemovalScheduler.class);
     public JobPostingRemovalScheduler(){}
 
 
-    @Scheduled(fixedDelay =120000,initialDelay=1000)
+    //@Scheduled(fixedDelay =120000,initialDelay=1000)
     public void work() {
         final String table = "JobPosting";
         logger.info("Scanning the {} table for expired job postings",table);

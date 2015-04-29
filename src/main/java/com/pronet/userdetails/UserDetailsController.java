@@ -26,7 +26,6 @@ public class UserDetailsController {
         this.userDetailsService = userDetailsService;
     }
 
-
     @RequestMapping(value = "/userprofile/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public void UpdateUserDetails(@PathVariable("id") String id, @Valid @RequestBody UserDetails user, BindingResult result) throws EmptyResultDataAccessException {
@@ -44,4 +43,3 @@ public class UserDetailsController {
         return userDetailsService.getUserDetailsAt(id, currentID);
     }
 }
-

@@ -65,6 +65,18 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-actuator")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+    compile("org.apache.mahout:mahout-core:0.9")
+    compile("org.apache.mahout:mahout-utils:0.5")
+    compile("org.apache.mahout:mahout-math:0.10.0")
+    compile("org.apache.mahout:mahout-integration:0.10.0")
+}
+
+configurations {
+    runtime.exclude group: "org.slf4j", module: "slf4j-log4j12"
+    runtime.exclude group: "log4j", module: "log4j"
+    runtime.exclude group: "org.slf4j", module: "slf4j-jcl"
+    runtime.exclude group: "org.slf4j", module: "api"
 
 }
 

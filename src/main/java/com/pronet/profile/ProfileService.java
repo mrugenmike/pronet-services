@@ -60,7 +60,6 @@ public class ProfileService {
                     json.put("educationDetails", getUser.getEducationDetails());
                     json.put("certifications", getUser.getCertifications());
                     json.put("skills", getUser.getSkills());
-                    json.put("lastseen", getUser.getLastseen());
                 }
                 else
                 {
