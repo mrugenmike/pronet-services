@@ -70,4 +70,10 @@ public class RecommendationController {
         int intID = Integer.parseInt(id);
         return recommendationService.Tanimoto(intID);
     }
+
+    @RequestMapping(value = "/career/recommendation/{currentPosition}/{expectedPostion}")
+    public List<CareerPath> getFind(@PathVariable String currentPosition,@PathVariable String expectedPostion){
+        final List<CareerPath> careerPaths = recommendationService.fetchCareerPathRecommendation(currentPosition, expectedPostion);
+        return careerPaths;
+    }
 }

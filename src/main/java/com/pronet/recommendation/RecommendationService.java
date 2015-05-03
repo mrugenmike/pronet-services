@@ -1,4 +1,8 @@
 package com.pronet.recommendation;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.QueryBuilder;
 import com.pronet.Skills.skills;
 import org.apache.mahout.cf.taste.impl.similarity.EuclideanDistanceSimilarity;
 import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
@@ -139,5 +143,15 @@ public class RecommendationService {
         Recommender recommender = new GenericBooleanPrefUserBasedRecommender(skillPrefModel, neighborhood, similarity);
         List<RecommendedItem> recommendations =   recommender.recommend(id,numberOfRecommendation);
         return recommendations;
+    }
+
+    public List<CareerPath> fetchCareerPathRecommendation(String currentPosition,String expectedPosition){
+        final DBObject careerRecommendation = QueryBuilder.start("paths").is(new BasicDBObject("$all",Arrays.asList(currentPosition.toLowerCase(),expectedPosition.toLowerCase()))).get();
+        final DBCursor careerRecommendations = mongoTemplate.getCollection("paths").find(careerRecommendation).sort(new BasicDBObject("frequency", -1)).limit(3);
+        List<CareerPath> careerPaths = new ArrayList<CareerPath>();
+        for(DBObject reco:careerRecommendations){
+            careerPaths.add(CareerPath.instance(reco));
+        }
+        return careerPaths;
     }
 }
