@@ -1,5 +1,6 @@
 package com.pronet.follow;
 
+import org.apache.mahout.cf.taste.common.TasteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.UnknownHostException;
 import java.util.List;
 
 
@@ -31,8 +33,6 @@ public class FollowController {
     @RequestMapping(value = "/follow/{id}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void follow(@PathVariable("id") String id, @Valid @RequestBody Follow follow) throws EmptyResultDataAccessException {
-
-
         followService.followAt(id,follow);
     }
 
@@ -45,9 +45,8 @@ public class FollowController {
     @RequestMapping(value = "/following/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    List following(@PathVariable("id") String id) {
-
+    List following(@PathVariable("id") String id) throws TasteException, UnknownHostException
+    {
         return followService.followingAt(id);
-
     }
 }

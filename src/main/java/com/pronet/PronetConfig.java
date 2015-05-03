@@ -18,11 +18,16 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
+
+import java.util.HashMap;
+import java.util.List;
+
 @org.springframework.context.annotation.Configuration
 @EnableAutoConfiguration
 @ComponentScan
@@ -134,7 +139,7 @@ public class PronetConfig {
     }
 
     @Bean
-    public MongoTemplate mongoTemplate() throws Exception {
+    public  MongoTemplate mongoTemplate() throws Exception {
         MongoClientURI uri = new MongoClientURI(mongoURI);
         MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(new MongoClient(uri), "pronet");
         MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory);

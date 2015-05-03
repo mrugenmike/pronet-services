@@ -83,7 +83,7 @@ public class SignUpService {
             user.setId(insertedID);
             user.setUser_name(model.getUser_name());
             user.setImg("/assets/images/sample.jpg");
-            //moderatorData.put(mod.getId(), mod);
+            //moderatorData.put(mod.getJobid(), mod);
             mongotemplate.save(user,"UserDetails");
 
         }

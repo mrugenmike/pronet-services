@@ -117,15 +117,19 @@ public class UserDetailsService {
 
             if(numberOfSkills > 0) {
                 jdbcTemplate.execute(" DELETE FROM skills where user_id = " + id + "");
-
+                jdbcTemplate.execute(" DELETE FROM skillsPref where user_id = " + id + "");
             }
 
             //get all skills
             HashMap<String,Integer> skillMapping = new HashMap<String,Integer>();
             String sql1 = "SELECT skillID,skillName FROM skillsMapping";
-            List<skills> skillsList = jdbcTemplate.queryForList(sql1,skills.class);
-            for(skills skill : skillsList)
-                skillMapping.put(skill.getSkillName(),skill.getSkillID());
+            List<Map<String, Object>> skillsList = jdbcTemplate.queryForList(sql1);
+
+            for(int i = 0 ; i< skillsList.size() ; i++)
+            {
+                Map<String, Object> skill = skillsList.get(i);
+                skillMapping.put((String)skill.get("skillName" ),(Integer) skill.get("skillID"));
+            }
 
             Random rand = new Random();
             //Add all new skills correspoding to user in skills table
@@ -137,12 +141,12 @@ public class UserDetailsService {
                 jdbcTemplate.execute(
                         "INSERT INTO skills(user_id,item_id) values("
                                 +  Integer.parseInt(id) + ","
-                                +  skillMapping.get(skill)+ ")");
+                                +  skillMapping.get(skill.trim().toLowerCase())+ ")");
 
                 jdbcTemplate.execute(
                         "INSERT INTO skillsPref(user_id,item_id,preference) values("
                                 +  Integer.parseInt(id) + ","
-                                +  skillMapping.get(skill)+  ","
+                                +  skillMapping.get(skill.trim().toLowerCase())+  ","
                                 +  (rand.nextInt(5)+1) + ")");
             }
         }
@@ -296,6 +300,5 @@ public class UserDetailsService {
         System.out.println(json);
         return json;
     }
-
 }
 

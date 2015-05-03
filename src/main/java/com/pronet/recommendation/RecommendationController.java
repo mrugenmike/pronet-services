@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -47,6 +46,7 @@ public class RecommendationController {
         return recommendationService.getTopThreeSkills(intID);
     }
 
+
     @RequestMapping(value = "/skills/PearsonReco/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -69,5 +69,13 @@ public class RecommendationController {
     public List getSkillsTanimoto(@PathVariable("id") String id) throws EmptyResultDataAccessException, TasteException, UnknownHostException {
         int intID = Integer.parseInt(id);
         return recommendationService.Tanimoto(intID);
+    }
+
+    @RequestMapping(value = "/careerPath/recommendation/{currentRole}/{DestinationRole}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List getCareerPathRecommendation(@PathVariable("currentRole") String currentRole,@PathVariable("DestinationRole") String DestinationRole) throws Exception
+    {
+        return recommendationService.careerPath(currentRole,DestinationRole);
     }
 }

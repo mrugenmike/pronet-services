@@ -61,12 +61,11 @@ public class Follow {
     }
 
     public Follow(){
-        System.out.println("here in follow");
+
     }
 
 
     public Follow(@JsonProperty String id , @JsonProperty String followerId, @JsonProperty String followerName,@JsonProperty String followerRole,@JsonProperty String followerURL) {
-        System.out.println("property consructor");
         this.followerId = followerId;
         this.followerName = followerName;
         this.followerRole = followerRole;
