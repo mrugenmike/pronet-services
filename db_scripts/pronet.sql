@@ -128,3 +128,81 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2015-04-05 17:06:38
+
+
+
+
+
+--Varuna Table
+
+
+DROP TABLE IF EXISTS `user_login`;
+CREATE TABLE `user_login` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `password` varchar(25) DEFAULT NULL,
+  `role` varchar(2) DEFAULT NULL,
+  `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`)
+);
+
+
+DROP TABLE IF EXISTS `follow`;
+CREATE TABLE `follow` (
+  `followerID` varchar(255) DEFAULT NULL,
+  `followeeID` varchar(255) DEFAULT NULL,
+  `followeeImgURL` varchar(255) DEFAULT NULL,
+  `followeeName` varchar(255) DEFAULT NULL,
+  `followeeRole` varchar(255) DEFAULT NULL
+);
+
+
+
+DROP TABLE IF EXISTS `feeds`;
+CREATE TABLE `feeds` (
+  `feed_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `feed_title` varchar(200) DEFAULT NULL,
+  `feed_description` varchar(500) DEFAULT NULL,
+  `feed_role` varchar(45) DEFAULT NULL,
+  `user_name` VARCHAR (200) DEFAULT NULL,
+  `user_img` VARCHAR(200) DEFAULT NULL,
+  PRIMARY KEY (`feed_id`)
+);
+
+DROP TABLE IF EXISTS `connections`;
+CREATE TABLE `connections` (
+  `user_id` int(11) ,
+  `item_id` int(11) ,
+  `preference` int(11) DEFAULT NULL
+);
+
+
+DROP TABLE IF EXISTS `skills`;
+CREATE TABLE `skills` (
+  `user_id` int(11) ,
+  `item_id` int(11) ,
+  `preference` int(11) DEFAULT NULL
+);
+
+
+DROP TABLE IF EXISTS `skillsPref`;
+CREATE TABLE `skillsPref` (
+  `user_id` int(11) ,
+  `item_id` int(11) ,
+  `preference` int(11) DEFAULT NULL
+);
+
+
+DROP TABLE IF EXISTS `skillsMapping`;
+CREATE TABLE `skillsMapping` (
+  `skillID` int(11) NOT NULL AUTO_INCREMENT,
+  `skillName` varchar(50),
+PRIMARY KEY (`skillID`)
+);
+
+INSERT INTO `skillsMapping` VALUES (1,'java'),(2,'c'),(3,'elasticsearch'),(4,'c++'),(5,'c#'),(6,'python'),(7,'scala'),(8,'ruby'),(9,'javascript'),(10,'nodejs'),(11,'groovy'),(12,'php'),(13,'sql'),(14,'objective-c'),(15,'.net'),(16,'perl'),(17,'r-language'),(18,'big-data'),(19,'lisp'),(20,'mahout'),(21,'mongodb'),(22,'dynamodb'),(23,'oracle'),(24,'postgresql'),(25,'redis'),(26,'cassendra'),(27,'neo4j'),(28,'photography'),(29,'ms-office'),(30,'angularjs'),(31,'bootstrap'),(32,'html'),(33,'css'),(34,'xml'),(35,'jsp'),(36,'jsf'),(37,'jquery'),(38,'spring'),(39,'springboot'),(40,'verilog'),(41,'viapi'),(42,'data-mining'),(43,'pig'),(44,'hive'),(45,'hadoop'),(46,'zookeeper'),(47,'data-analysis'),(48,'android'),(49,'ios'),(50,'swift'),(51,'machine-learning'),(52,'spark')
+
+
+
