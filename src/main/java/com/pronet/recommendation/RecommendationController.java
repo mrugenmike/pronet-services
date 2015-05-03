@@ -4,6 +4,7 @@ import com.pronet.exceptions.BadRequestException;
 import com.pronet.userdetails.UserDetails;
 import com.pronet.userdetails.UserDetailsService;
 import org.apache.mahout.cf.taste.common.TasteException;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by varuna on 4/28/15.
@@ -74,8 +77,17 @@ public class RecommendationController {
     @RequestMapping(value = "/careerPath/recommendation/{currentRole}/{DestinationRole}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List getCareerPathRecommendation(@PathVariable("currentRole") String currentRole,@PathVariable("DestinationRole") String DestinationRole) throws Exception
+    public List<JSONObject> getCareerPathRecommendation(@PathVariable("currentRole") String currentRole,@PathVariable("DestinationRole") String DestinationRole) throws Exception
     {
         return recommendationService.careerPath(currentRole,DestinationRole);
+    }
+
+    @RequestMapping(value = "/career/recommendation/{currentPosition}/{expectedPostion}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<CareerPath> getFind(@PathVariable String currentPosition,@PathVariable String expectedPostion)
+    {
+        final List<CareerPath> careerPaths = recommendationService.fetchCareerPathRecommendation(currentPosition, expectedPostion);
+        return careerPaths;
     }
 }

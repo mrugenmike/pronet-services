@@ -1,4 +1,9 @@
 package com.pronet.recommendation;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.QueryBuilder;
+import com.pronet.Skills.skills;
 import org.apache.mahout.cf.taste.impl.similarity.EuclideanDistanceSimilarity;
 import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
 import org.apache.mahout.cf.taste.impl.similarity.TanimotoCoefficientSimilarity;
@@ -43,6 +48,7 @@ public class RecommendationService {
 
     @Autowired
     MongoTemplate mongoTemplate;
+
 
     public RecommendationService() {
 
@@ -141,55 +147,68 @@ public class RecommendationService {
         return recommendations;
     }
 
-    public List careerPath(String currentRole, String destinationRole) throws Exception {
+    //TODO refine it - make the mappings static and structure the output
+    public List<JSONObject> careerPath(String currentRole, String destinationRole) throws Exception {
 
-        //Query searchUserQuery = new Query(Criteria.where("name").is("Board memeber"));
         List<jobs> jobsMongo = mongoTemplate.findAll(jobs.class ,"jobs");
 
-        HashMap<Integer, String> idtojob = new HashMap<Integer, String>();
-        HashMap<String, Integer> jobtoid = new HashMap<String, Integer>();
-
+        HashMap<String, String> idtojob = new HashMap<String, String>();
+        HashMap<String, String> jobtoid = new HashMap<String, String>();
         for(jobs job : jobsMongo)
         {
-            idtojob.put(job.getJobid(),job.getName());
-            jobtoid.put(job.getName(),job.getJobid());
+            idtojob.put(Integer.toString(job.getJobid()), job.getName());
+            jobtoid.put(job.getName(), Integer.toString(job.getJobid()));
         }
 
         System.out.println(currentRole+" " + destinationRole);
-        List<String> recommendedpath = new ArrayList<String>();
+
+        //Map<Integer, ArrayList<String>> recommendedpath = new HashMap<Integer, ArrayList<String>>();
+        List<JSONObject> recommendedpath = new ArrayList<JSONObject>();
 
         BufferedReader br = null;
-        String start = jobtoid.get(currentRole).toString();
-        String destination = jobtoid.get(destinationRole).toString();
+
+        String start        = jobtoid.get(currentRole).toString();
+        String destination  = jobtoid.get(destinationRole).toString();
+        System.out.println(start + " " + destination);
+
         try {
             String sCurrentLine;
-            br = new BufferedReader(new FileReader("final.txt"));
+            br = new BufferedReader(new FileReader("data/hadoop.txt"));
 
-            while ((sCurrentLine = br.readLine()) != null) {
-                sCurrentLine = sCurrentLine.trim();
-                String[] words = sCurrentLine.split("[\\s\\t]+");
-                String csvItemIds = words[0];
-                String[] itemIds = csvItemIds.split(",");
-                if (Arrays.asList(itemIds).contains(start) && Arrays.asList(itemIds).contains(destination)) {
-                    recommendedpath.add(sCurrentLine);
-                }
-            }
+            int i = 0;
+            int numberOfRecommendations = 1;
 
-            for (String line : recommendedpath)
+            while ((sCurrentLine = br.readLine()) != null)
             {
+                if(numberOfRecommendations > 3)
+                    break;
+
+                sCurrentLine = sCurrentLine.trim();
+
                 String[] words = sCurrentLine.split("[\\s\\t]+");
                 String csvItemIds = words[0];
                 String[] itemIds = csvItemIds.split(",");
-                for(String itemID : itemIds)
+
+                if (Arrays.asList(itemIds).contains(start) && Arrays.asList(itemIds).contains(destination))
                 {
-                    System.out.print(idtojob.get(itemID) + ",");
+                    System.out.println(sCurrentLine);
+
+                    ArrayList<String> convertedToString = new ArrayList<String>();
+                    for(String itemId : itemIds)
+                        convertedToString.add(idtojob.get(itemId));
+
+                    JSONObject json = new JSONObject();
+                    json.put("paths:", convertedToString);
+
+                    recommendedpath.add(json);
+                    numberOfRecommendations++;
                 }
-                System.out.println();
             }
 
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
+        } finally
+        {
             try {
                 if (br != null) br.close();
             } catch (IOException ex) {
@@ -198,6 +217,14 @@ public class RecommendationService {
         }
         return recommendedpath;
     }
+
+    public List<CareerPath> fetchCareerPathRecommendation(String currentPosition,String expectedPosition){
+        final DBObject careerRecommendation = QueryBuilder.start("paths").is(new BasicDBObject("$all",Arrays.asList(currentPosition.toLowerCase(),expectedPosition.toLowerCase()))).get();
+        final DBCursor careerRecommendations = mongoTemplate.getCollection("paths").find(careerRecommendation).sort(new BasicDBObject("frequency", -1)).limit(3);
+        List<CareerPath> careerPaths = new ArrayList<CareerPath>();
+        for(DBObject reco:careerRecommendations){
+            careerPaths.add(CareerPath.instance(reco));
+        }
+        return careerPaths;
+    }
 }
-
-

@@ -1,0 +1,14 @@
+Software Developer,Program Manager,Software Architect,CTO
+Program Manager,Software Architect,CEO
+Data Engineer,Data Scientist,Chief Consultant
+Data Analyst,Data Engineer,Data Scientist,Senior Software Engineer
+Software Developer,Program Manager,CTO,CEO
+Software Engineer,Team Lead,Program Manager
+Software Engineer,Team Lead,Program Manager
+Software Engineer,Team Lead,Program Manager
+Software Engineer,Team Lead,Program Manager
+Data Engineer,Data Scientist,Chief Consultant
+Data Engineer,Data Scientist,Software Architect
+Program Manager,Software Architect,CEO
+Program Manager,Software Architect,CEO
+Software Engineer,Software Architect,CEO
