@@ -194,7 +194,7 @@ public class RecommendationService {
                         convertedToString.add(idtojob.get(itemId));
 
                     JSONObject json = new JSONObject();
-                    json.put("paths:", convertedToString);
+                    json.put("paths", convertedToString);
 
                     recommendedpath.add(json);
                     numberOfRecommendations++;
