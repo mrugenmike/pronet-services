@@ -27,7 +27,7 @@ public class CareerPath {
 
     public static CareerPath instance(DBObject reco) {
         final List<String> paths = (List<String>) reco.get("paths");
-        final long frequency = (long) reco.get("frequency");
+        final long frequency = Long.valueOf(reco.get("frequency").toString());
         return new CareerPath(paths, frequency);
     }
 }
