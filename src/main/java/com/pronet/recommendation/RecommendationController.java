@@ -1,21 +1,16 @@
 package com.pronet.recommendation;
 
-import com.pronet.exceptions.BadRequestException;
-import com.pronet.userdetails.UserDetails;
-import com.pronet.userdetails.UserDetailsService;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
+
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by varuna on 4/28/15.
@@ -79,7 +74,7 @@ public class RecommendationController {
     @ResponseBody
     public List<JSONObject> getCareerPathRecommendation(@PathVariable("currentRole") String currentRole,@PathVariable("DestinationRole") String DestinationRole) throws Exception
     {
-        return recommendationService.careerPath(currentRole,DestinationRole);
+        return recommendationService.careerPath(currentRole, DestinationRole);
     }
 
     @RequestMapping(value = "/career/recommendation/{currentPosition}/{expectedPostion}")
@@ -89,5 +84,13 @@ public class RecommendationController {
     {
         final List<CareerPath> careerPaths = recommendationService.fetchCareerPathRecommendation(currentPosition, expectedPostion);
         return careerPaths;
+    }
+
+    @RequestMapping(value = "/jobs/recommendation/{id}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public ArrayList getJobs(@PathVariable("id") String id) throws EmptyResultDataAccessException, TasteException, UnknownHostException {
+        int intID = Integer.parseInt(id);
+        return recommendationService.getTopThreeJobs(intID);
     }
 }
