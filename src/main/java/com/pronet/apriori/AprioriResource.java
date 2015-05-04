@@ -12,7 +12,7 @@ public class AprioriResource {
 
     AprioriService aprioriService;
 
-    @RequestMapping(value = "/careerpath/{career_id}", method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value = "/aprioripath/{career_id}", method = RequestMethod.GET, produces = {"application/json"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
     ArrayList getPath(@PathVariable("career_id") String career_id) throws Exception {
