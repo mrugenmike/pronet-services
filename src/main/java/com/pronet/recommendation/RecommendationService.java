@@ -82,6 +82,7 @@ public class RecommendationService {
     }
 
     public List<JSONObject> getTopThreeSkills(long id) throws UnknownHostException, TasteException {
+        Date date1 = new Date();
         System.out.println("Recommended Three Skills");
         JDBCDataModel skillModel = new MySQLJDBCDataModel(mySQL, "skills", "user_id", "item_id", "preference", null);
 
@@ -111,10 +112,17 @@ public class RecommendationService {
             System.out.println(json);
             recommendedSkills.add(json);
         }
+
+        Date date2 = new Date();
+        long diff = date2.getTime() - date1.getTime();
+        System.out.print("Execution Time : " + diff + " ms \n");
+
         return recommendedSkills;
     }
 
     public List Pearson(long id) throws UnknownHostException, TasteException {
+        Date date1 = new Date();
+
         JDBCDataModel skillPrefModel = new MySQLJDBCDataModel(mySQL, "skillsPref", "user_id", "item_id", "preference", null);
         System.out.println("Recommended Top Three Skills - Pearson");
         int numberOfRecommendation = 3;
@@ -122,10 +130,18 @@ public class RecommendationService {
         UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.1, similarity, skillPrefModel);
         Recommender recommender = new GenericBooleanPrefUserBasedRecommender(skillPrefModel, neighborhood, similarity);
         List<RecommendedItem> recommendations = recommender.recommend(id, numberOfRecommendation);
+
+        Date date2 = new Date();
+        long diff = date2.getTime() - date1.getTime();
+        System.out.print("Execution Time : " + diff + " ms \n");
+
         return recommendations;
     }
 
     public List Euclidean(long id) throws UnknownHostException, TasteException {
+
+        Date date1 = new Date();
+
         JDBCDataModel skillPrefModel = new MySQLJDBCDataModel(mySQL, "skillsPref", "user_id", "item_id", "preference", null);
         System.out.println("Recommended Top Three Skills -  Euclidian");
         int numberOfRecommendation = 3;
@@ -133,10 +149,17 @@ public class RecommendationService {
         UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.1, similarity, skillPrefModel);
         Recommender recommender = new GenericBooleanPrefUserBasedRecommender(skillPrefModel, neighborhood, similarity);
         List<RecommendedItem> recommendations = recommender.recommend(id, numberOfRecommendation);
+
+        Date date2 = new Date();
+        long diff = date2.getTime() - date1.getTime();
+        System.out.print("Execution Time : " + diff + " ms \n");
+
         return recommendations;
     }
 
     public List Tanimoto(long id) throws UnknownHostException, TasteException {
+        Date date1 = new Date();
+
         JDBCDataModel skillPrefModel = new MySQLJDBCDataModel(mySQL, "skillsPref", "user_id", "item_id", "preference", null);
         System.out.println("Recommended Top Three Skills - Tanimato");
         int numberOfRecommendation = 3;
@@ -144,6 +167,11 @@ public class RecommendationService {
         UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.1, similarity, skillPrefModel);
         Recommender recommender = new GenericBooleanPrefUserBasedRecommender(skillPrefModel, neighborhood, similarity);
         List<RecommendedItem> recommendations = recommender.recommend(id, numberOfRecommendation);
+
+        Date date2 = new Date();
+        long diff = date2.getTime() - date1.getTime();
+        System.out.print("Execution Time : " + diff + " ms \n");
+
         return recommendations;
     }
 
