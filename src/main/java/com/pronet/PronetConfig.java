@@ -18,15 +18,11 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
-
-import java.util.HashMap;
-import java.util.List;
 
 @org.springframework.context.annotation.Configuration
 @EnableAutoConfiguration
@@ -130,10 +126,10 @@ public class PronetConfig {
     @Bean
     MysqlDataSource recommendation() {
         MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setServerName("localhost");
+        dataSource.setServerName("pronet.ccjszyy4euqe.us-west-1.rds.amazonaws.com");
         dataSource.setPort(3306);
-        dataSource.setUser("root");
-        dataSource.setPassword("");
+        dataSource.setUser("pronet");
+        dataSource.setPassword("pronetapp");
         dataSource.setDatabaseName("pronet");
         return dataSource;
     }
