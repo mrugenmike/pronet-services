@@ -199,7 +199,7 @@ public class RecommendationService {
 
         try {
             String sCurrentLine;
-            br = new BufferedReader(new FileReader("data/hadoop.txt"));
+            br = new BufferedReader(new FileReader("/home/ubuntu/pronet-services/data/hadoop.txt"));
 
             int i = 0;
             int numberOfRecommendations = 1;
